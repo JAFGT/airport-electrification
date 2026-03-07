@@ -3,17 +3,12 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
-# ---------- DARK STYLE ----------
+# CSS STYLE
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] {background-color: #00182c;}
 [data-testid="stSidebar"] {background-color: #0a1a2a;}
-
-/* Block container (main content) */
-.block-container {
-    padding-top: 1rem;
-    color: #f0f0f0;  /* text color */
-}
+.block-container {padding-top: 1rem;color: #003057;}
 
 /* Cards / placeholders */
 .card {
