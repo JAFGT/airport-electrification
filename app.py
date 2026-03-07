@@ -4,6 +4,11 @@ import streamlit.components.v1 as components
 st.set_page_config(layout="wide")
 
 # ---------- DARK STYLE ----------
+
+.stApp {
+    background-color: #00182c;
+}
+
 st.markdown("""
 <style>
 
