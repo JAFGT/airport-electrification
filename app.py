@@ -6,15 +6,8 @@ st.set_page_config(layout="wide")
 # ---------- DARK STYLE ----------
 st.markdown("""
 <style>
-/* Page background */
-[data-testid="stAppViewContainer"] {
-    background-color: #00182c;
-}
-
-/* Sidebar (if used) */
-[data-testid="stSidebar"] {
-    background-color: #0a1a2a;
-}
+[data-testid="stAppViewContainer"] {background-color: #00182c;}
+[data-testid="stSidebar"] {background-color: #0a1a2a;}
 
 /* Block container (main content) */
 .block-container {
