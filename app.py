@@ -26,6 +26,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- HEADER ----------
+st.markdown("""
+<style>
+h1 {
+    margin-top: 50px;  /* push the title down */
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("Net Zero Infrastructure Planner")
 st.markdown("---")
 
