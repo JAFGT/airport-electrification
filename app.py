@@ -8,15 +8,8 @@ st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] {background-color: #00182c;}
 [data-testid="stSidebar"] {background-color: #0a1a2a;}
-.block-container {padding-top: 1rem;color: #003057;}
-
-/* Cards / placeholders */
-.card {
-    background-color: #111827;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #1f2937;
-}
+.block-container {padding-top: 1rem;color: #ebaa01;}
+.card {background-color: #003057; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
 
 .section-title {
     font-size: 20px;
