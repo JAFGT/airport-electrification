@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide")
 
@@ -7,7 +8,7 @@ st.markdown("""
 <style>
 
 body {
-    background-color: #0b1120;
+    background-color: #00182c;
 }
 
 .block-container {
