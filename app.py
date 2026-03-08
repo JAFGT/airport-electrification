@@ -46,6 +46,7 @@ st.markdown("""
 # DATA SETUP
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 years = ["2030","2040","2050","2060","2070"]
+ftts = ["Hybrid-Electric", "H2-SAF Combustion"]
 
 # INITIALIZE SESSION STATE
 for sector in sectors:
@@ -56,10 +57,15 @@ for year in years:
     key = f"{year.replace(' ', '_')}"
     if key not in st.session_state:
         st.session_state[key] = False
+for ftt in ftts:
+    key = f"{ftt.replace(' ', '_')}"
+    if key not in st.session_state:
+        st.session_state[key] = False
 
-# CREATE SECTOR BUTTON
-def create_sector_button(sector):
-    clean_name = sector.replace(' ', '_')
+
+# CREATE GENERAL BUTTON
+def create_general_button(general):
+    clean_name = general.replace(' ', '_')
     key = f"{clean_name}"
     is_active = st.session_state[key]
     # SECTOR BUTTON STYLING
@@ -73,7 +79,7 @@ def create_sector_button(sector):
             button {{ background-color: {bg_color}; border: {border_style}; color: {text_color}; box-shadow: {glow};}}
         """
     ):
-        if st.button(sector, key=f"btn_{key}"):
+        if st.button(general, key=f"btn_{key}"):
             st.session_state[key] = not st.session_state[key]
             st.rerun()
 
@@ -107,13 +113,13 @@ with col1:
     st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold;">Energy Load Sectors</p>', unsafe_allow_html=True)
     left, right = st.columns(2)
     with left:
-        create_sector_button("Airport Terminal")
-        create_sector_button("Manufacturing Plant")
+        create_general_button("Airport Terminal")
+        create_general_button("Manufacturing Plant")
     with right:
-        create_sector_button("GSE")
-        create_sector_button("Other Facilities")
+        create_general_button("GSE")
+        create_general_button("Other Facilities")
 
-    st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;">Scenario Inputs</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold;">Target Year</p>', unsafe_allow_html=True)
     cy1, cy2, cy3, cy4, cy5 = st.columns(5)
     with cy1:
         create_year_button("2030")
