@@ -116,8 +116,4 @@ with bottom2:
     st.markdown('<div class="placeholder" style="height:200px"></div>', unsafe_allow_html=True)
     st.markdown("""
     **Procurement**
-    Electrolyzer Hub  x8  
-    PV Modules  x45k  
-    Liquid H₂ Storage  x12  
-    BESS Mega-Pack  x20  
     """)
