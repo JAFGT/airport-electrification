@@ -47,6 +47,23 @@ st.title("Airport Dashboard")
 # ---------- Energy sectors ----------
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 
+# ---------- Helper function for toggle buttons ----------
+def toggle_button(container_key, sector):
+    """Create a toggleable button with session state."""
+    state_key = f"{container_key}_{sector}_checked"
+    widget_key = f"{container_key}_{sector}_btn"
+
+    # Initialize state if missing
+    if state_key not in st.session_state:
+        st.session_state[state_key] = False
+
+    # Button label changes when checked
+    label = f"✅ {sector}" if st.session_state[state_key] else sector
+
+    # Clicking button toggles state
+    if st.button(label, key=widget_key):
+        st.session_state[state_key] = not st.session_state[state_key]
+
 # ---------- Columns ----------
 col1, col2, col3 = st.columns([1,1,1], gap="medium")
 
@@ -57,8 +74,7 @@ with col1:
         st.slider("Capacity A", 0, 100, 50)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            if st.button(f"Trigger {sector}", key=f"blc1_{sector}_btn"):
-                st.write(f"You clicked: {sector} (Gate A)")
+            toggle_button("blc1", sector)
 
 # ---------- Container 2 ----------
 with col2:
@@ -67,8 +83,7 @@ with col2:
         st.slider("Capacity B", 0, 100, 30)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            if st.button(f"Trigger {sector}", key=f"blc2_{sector}_btn"):
-                st.write(f"You clicked: {sector} (Gate B)")
+            toggle_button("blc2", sector)
 
 # ---------- Container 3 ----------
 with col3:
@@ -77,5 +92,11 @@ with col3:
         st.slider("Capacity C", 0, 100, 75)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            if st.button(f"Trigger {sector}", key=f"blc3_{sector}_btn"):
-                st.write(f"You clicked: {sector} (Gate C)")
+            toggle_button("blc3", sector)
+
+# ---------- Display checked sectors ----------
+st.markdown("---")
+st.write("**Checked Sectors per Container:**")
+for i, container in enumerate(["blc1","blc2","blc3"], start=1):
+    checked = [s for s in sectors if st.session_state[f"{container}_{s}_checked"]]
+    st.write(f"Container {i}: {checked}")
