@@ -30,10 +30,6 @@ h1, h3 {color: #ecf0f1 ! deprivation;}
 /* SLIDER COLORS */
 .stSlider [data-baseweb="slider"] > div > div > div {background-color: #b0a36f !important;} /*SLIDER*/
 .stSlider [data-baseweb="slider"] > div > div > div > div {background-color: #b0a36f !important;} /*KNOB*/
-.stSlider [data-baseweb="slider"] > div > div > div > div > div > div  {background-color: #b0a36f !important;} /*KNOB*/
-
-/*.stSlider [data-baseweb="slider"] > div > div > div > div > div {background-color: #b0a36f !important;}*/
-/*.stSlider [data-baseweb="slider"] > div > div > div > div {background-color: #b0a36f !important;}*/
 
 
 </style>
