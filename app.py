@@ -3,18 +3,18 @@ import streamlit as st
 # CSS 
 st.markdown("""
 <style>
-/* 1. Change the full page background */
+/* Page Background (Gradient */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%);
     color: #ffffff;
 }
 
-/* 2. Make the header transparent */
+/* Header Transparency */
 [data-testid="stHeader"] {
     background: rgba(0,0,0,0);
 }
 
-/* Your existing container styles */
+/* Container Styles */
 .st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
     background-color: #102f54;
     border: 2px solid #b0a36f; 
@@ -28,6 +28,11 @@ st.markdown("""
 h1, h3 {
     color: #ecf0f1 ! deprivation;
 }
+
+.stSlider [data-baseweb="slider"] > div > div > div > div {
+    background-color: #FF4B4B !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
