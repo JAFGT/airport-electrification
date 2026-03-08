@@ -8,7 +8,7 @@ st.set_page_config(
 
 # ---------- HEADER ----------
 st.markdown(
-    '<h1 style="color:#ebaa01; font-family:\'Roboto Slab\', serif;">Airport Electrification Dashboard</h1>',
+    '<h1 style="color:#ebaa01; font-family:\'Roboto Slab\', sans-serif;">Airport Electrification Dashboard</h1>',
     unsafe_allow_html=True
 )
 st.markdown("---")
@@ -17,7 +17,7 @@ st.markdown("---")
 col1, col2, col3 = st.columns([1, 1, 1])
 
 with col1:
-    st.container()  # optional container for organization
+    st.container(  # optional container for organization
     st.markdown(
         """
         <div style="
@@ -33,6 +33,7 @@ with col1:
     )
     st.slider("Slider 1", 0, 100, 50)
     st.metric("Metric 1 Value", "123", "+5%")
+    )
 
 with col2:
     st.container()
@@ -87,7 +88,6 @@ st.markdown(
         border-radius: 12px;
         margin-top: 50px;
     ">
-        For more information, visit <a href='https://www.snowflake.com' style='color:white; text-decoration:underline;'>www.snowflake.com</a>
     </div>
     """,
     unsafe_allow_html=True
