@@ -5,7 +5,7 @@ st.markdown("""
 <style>
 /* 1. Change the full page background */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    background: linear-gradient(135deg, #0f0c29 0%, ##0a203c 50%, #05172a 100%);
     color: #ffffff;
 }
 
