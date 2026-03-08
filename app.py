@@ -9,7 +9,6 @@ st.markdown("""
 [data-testid="stAppViewContainer"] {background-color: #05172a;}
 [data-testid="stSidebar"] {background-color: #05172a;}
 .block-container {padding-top: 1rem;color: #05172a;}
-.card {background-color: #102f54; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
 [data-testid="stAppViewContainer"] .block-container {padding-top: 4rem;}
 
 .h1 {font-size: 50px !important; color: #ebaa01 !important; font-family: 'Roboto', sans-serif !important; font-weight: bold !important; margin-bottom: 20px !important;}
@@ -59,6 +58,9 @@ with col1:
     <div style="background-color:#003057; padding:20px; border-radius:12px; color:white;">
         Card 1 content
     </div>
+
+    .card {background-color: #102f54; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
+
     """, unsafe_allow_html=True)
 
     
