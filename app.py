@@ -15,17 +15,15 @@ st.markdown("""
 [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
 /* Containers targeted by key */
-div[data-testid="stContainer"][data-key="blc1"],
-div[data-testid="stContainer"][data-key="blc2"],
-div[data-testid="stContainer"][data-key="blc3"] {
+.st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
     background-color: #102f54;
     border: 2px solid #b0a36f;
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 12px; 
+    padding: 20px; 
     margin-bottom: 20px;
-    width: 100%;          /* fill column */
-    box-sizing: border-box;
+    backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
 }
+
 
 /* Titles inside containers */
 h1, h3 {color: #ecf0f1 !important;}
