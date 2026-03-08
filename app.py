@@ -33,7 +33,7 @@ st.write(f"Values selected: Param1={param1}, Param2={param2}, Param3={param3}")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------- Unstyled container for comparison ----------
-with st.container(key):
+with st.container(key="blc"):
     st.header("This is an unstyled container")
     st.write("Just normal Streamlit elements here.")
     param1 = st.slider("Parameter 1", 0, 100, 50)
