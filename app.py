@@ -12,16 +12,11 @@ st.set_page_config(
 # 2. Enhanced CSS for "Nice" Buttons and Glassmorphism
 st.markdown("""
 <style>
-    /* Main Background Gradient */
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%);
-        color: #ffffff;
-    }
+    /* GRADIENT BACKGROUND*/
+    [data-testid="stAppViewContainer"] {background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); color: #ffffff;}
 
-    /* Transparent Header */
-    [data-testid="stHeader"] {
-        background: rgba(0,0,0,0);
-    }
+    /* TRANSPARENT HEADER */
+    [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
     /* Gate Container Styling (Cards) */
     div[data-testid="stVerticalBlock"] > div:has(div.stButton) {
@@ -33,7 +28,7 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* The "Nice" Button Styling */
+    /* The "Nice" Button Styling
     .stButton > button {
         background-color: rgba(10, 32, 60, 0.7);
         color: #b0a36f;
@@ -44,7 +39,7 @@ st.markdown("""
         font-weight: 600;
         letter-spacing: 0.5px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    }*/
 
     /* Hover Effect */
     .stButton > button:hover {
