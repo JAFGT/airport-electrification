@@ -38,7 +38,7 @@ h1, h3 {color: #ecf0f1 ! deprivation;}
 st.title("Airport Dashboard")
 
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3 = st.columns([1, 1, 1])
 with col1:
     with st.container(key="blc1"):
         st.write("### Gate A")
