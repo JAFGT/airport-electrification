@@ -119,7 +119,7 @@ with col1:
         create_general_button("GSE")
         create_general_button("Other Facilities")
 
-    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-bottom: 10px;">Target Year</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-bottom: 30px;">Target Year</p>', unsafe_allow_html=True)
     cy1, cy2, cy3, cy4, cy5 = st.columns(5)
     with cy1:
         create_year_button("2030")
