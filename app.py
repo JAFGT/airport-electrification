@@ -45,7 +45,7 @@ st.markdown("""
 
 # DATA SETUP
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
-years = ["2030","2040","2050","2060","2070]
+years = ["2030","2040","2050","2060","2070"]
 
 # INITIALIZE SESSION STATE
 for sector in sectors:
