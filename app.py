@@ -3,15 +3,15 @@ import streamlit as st
 # CSS 
 st.markdown("""
 <style>
-/* Page Background (Gradient */
+/* Page Background */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%);
+    background: #05172a;
     color: #ffffff;
 }
 
 /* Header Transparency */
 [data-testid="stHeader"] {
-    background: rgba(0,0,0,0);
+    background: #00000000;
 }
 
 /* Container Styles */
@@ -21,16 +21,43 @@ st.markdown("""
     border-radius: 12px; 
     padding: 20px; 
     margin-bottom: 20px;
-    backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
 }
 
-/* Optional: Make titles stand out */
-h1, h3 {color: #ecf0f1 ! deprivation;}
+/* Titles */
+h1, h3 {
+    color: #ecf0f1 !important;
+}
 
-/* SLIDER COLORS */
-.stSlider [data-baseweb="slider"] > div > div > div {background-color: #b0a36f !important;} /*SLIDER*/
-.stSlider [data-baseweb="slider"] > div > div > div > div {background-color: #b0a36f !important;} /*KNOB*/
+/* --- SLIDER COLOR OVERRIDE (HEX ONLY) --- */
 
+/* 1. The Active Line (Left of knob) */
+.stSlider [data-baseweb="slider"] > div > div > div > div {
+    background-color: #b0a36f !important;
+}
+
+/* 2. The Knob (The circle) */
+.stSlider [data-baseweb="slider"] > div > div > div > div > div {
+    background-color: #b0a36f !important;
+    border: 2px solid #b0a36f !important;
+    box-shadow: none !important;
+}
+
+/* 3. The Inactive Line (Right of knob) */
+/* Using a dark hex to provide contrast */
+.stSlider [data-baseweb="slider"] > div > div {
+    background-color: #1c3a5e !important;
+}
+
+/* 4. The Value Bubble (Number that pops up) */
+div[data-testid="stThumbValue"] {
+    background-color: #b0a36f !important;
+    color: #05172a !important;
+}
+
+/* 5. Removing the red 'ticks' at the start/end */
+[data-testid="stTickBarMin"], [data-testid="stTickBarMax"], [data-testid="stSliderTickBar"] {
+    color: #1c3a5e !important;
+}
 
 </style>
 """, unsafe_allow_html=True)
