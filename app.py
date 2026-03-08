@@ -84,7 +84,7 @@ def create_year_button(year):
     # YEAR BUTTON STYLING
     bg_color = '#0a203c !important' if is_active else '#0a203c'
     border_style = '2px solid #69ff47 !important' if is_active else '1px solid #ffffff'
-    text_color = '#69ff47 !important' if is_active else '#fffff'
+    text_color = '#69ff47 !important' if is_active else '#ffffff'
     glow = 'inset 0 0 15px #69ff47' if is_active else 'none'
     with stylable_container(
         key=f"container_{key}",
