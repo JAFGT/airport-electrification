@@ -26,8 +26,8 @@ st.markdown("""
         border-radius: 8px;
         display: block !important;
         width: 100% !important; 
-        margin-left: auto !important;
-        margin-right: auto !important;        
+        justify-content: center !important;
+        align-items: center !important;      
         padding: 10px 20px;
         font-weight: 600;
         transition: all 0.3s ease;
