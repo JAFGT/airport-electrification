@@ -2,20 +2,16 @@ import streamlit as st
 from streamlit_extras.buy_me_a_coffee import button as coffee_button
 from streamlit_extras.annotated_text import annotated_text
 
-# 1. Page Configuration
-st.set_page_config(
-    page_title="Airport Energy Dashboard",
-    page_icon="✈️",
-    layout="wide"
-)
+# PAGE CONFIG
+st.set_page_config(page_title="Airport Electrification Dashboard",page_icon="✈️", layout="wide")
 
-# 2. CSS for "Nice" Buttons and Glassmorphism
+# CSS FOR STULING
 st.markdown("""
 <style>
     [data-testid="stAppViewContainer"] {background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); color: #ffffff;}
     [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
-    /* Gate Container Styling */
+    /* Gate Container Styling 
     div[data-testid="stVerticalBlock"] > div:has(div.stButton), 
     div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {
         background: rgba(255, 255, 255, 0.05);
@@ -24,7 +20,7 @@ st.markdown("""
         padding: 20px;
         backdrop-filter: blur(10px);
         margin-bottom: 10px;
-    }
+    }*/
 
     .stButton > button {
         background-color: rgba(10, 32, 60, 0.7);
