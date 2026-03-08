@@ -4,29 +4,19 @@ from streamlit_extras.annotated_text import annotated_text
 from streamlit_extras.stylable_container import stylable_container
 
 # PAGE CONFIG
-st.set_page_config( page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide")
+st.set_page_config(page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide")
 
 # CSS STYLING
 st.markdown("""
 <style>
-    /* Main Background Gradient */
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); 
-        color: #ffffff;
-    }
+    /* BACKGROUND GRADIENT */
+    [data-testid="stAppViewContainer"] {background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); color: #ffffff;}
     
-    /* Transparent Header */
+    /* TRANSPARENT HEADER */
     [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
-    /* Card Styling for Sliders */
-    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {
-        background: rgba(255, 255, 255, 0.05); 
-        border: 1px solid rgba(176, 163, 111, 0.3); 
-        border-radius: 15px; 
-        padding: 20px; 
-        backdrop-filter: blur(10px); 
-        margin-bottom: 10px;
-    }
+    /* CARD STYLING (SLIDERS) */
+    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(176, 163, 111, 0.3); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 10px;}
 
     /* Base Button Style */
     .stButton > button {
@@ -55,18 +45,17 @@ st.markdown("""
 
 # 3. DATA SETUP
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
-gate_id = "sec1"
 
 # 4. INITIALIZE SESSION STATE
 for sector in sectors:
-    key = f"{gate_id}_{sector.replace(' ', '_')}"
+    key = f"{sector.replace(' ', '_')}"
     if key not in st.session_state:
         st.session_state[key] = False
 
 # 5. HELPER FUNCTION (Corrected F-String Syntax)
-def create_sector_button(gate_id, sector):
+def create_sector_button(sector):
     clean_name = sector.replace(' ', '_')
-    key = f"{gate_id}_{clean_name}"
+    key = f"{clean_name}"
     is_active = st.session_state[key]
     
     # Python requires double {{ }} to render a literal { } in an f-string
@@ -90,8 +79,8 @@ def create_sector_button(gate_id, sector):
             st.session_state[key] = not st.session_state[key]
             st.rerun()
 
-# 6. UI LAYOUT
-st.title("✈️ Airport Dashboard")
+# UI Layout
+st.title("Airport Electrification Dashboard")
 
 col1, col2, col3 = st.columns(3, gap="large")
 
