@@ -25,8 +25,29 @@ st.markdown("""
 h1, h3 {color: #ecf0f1 ! deprivation;}
 
 /* SLIDER COLORS */
-.stSlider [data-baseweb="slider"] > div > div > div {background-color: #b0a36f !important;}
-.stSlider [data-baseweb="slider"] > div > div > div > div {background-color: #b0a36f !important;}
+/*.stSlider [data-baseweb="slider"] > div > div > div {background-color: #b0a36f !important;}*/
+/*.stSlider [data-baseweb="slider"] > div > div > div > div {background-color: #b0a36f !important;}*/
+
+/* track line */
+[data-testid="stSlider"] svg line {
+    stroke: #b0a36f !important;
+}
+
+/* filled portion */
+[data-testid="stSlider"] svg path {
+    stroke: #b0a36f !important;
+}
+
+/* knob */
+[data-testid="stSlider"] svg circle {
+    fill: #b0a36f !important;
+    stroke: #b0a36f !important;
+}
+
+/* knob glow */
+[data-testid="stSlider"] div[role="slider"] {
+    box-shadow: 0 0 6px #b0a36f !important;
+}
 
 </style>
 """, unsafe_allow_html=True)
