@@ -26,15 +26,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- HEADER ----------
-st.markdown("""
-<style>
 h1 {
-    margin-top: 1000px;  /* push the title down */
+    margin-top: 3rem;
+    margin-bottom: 1rem; 
 }
-</style>
-""", unsafe_allow_html=True)
-
-st.title("Net Zero Infrastructure Planner")
+st.title("Airport Electrification Dashboard")
 st.markdown("---")
 
 # ---------- MAIN GRID ----------
