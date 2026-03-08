@@ -25,10 +25,10 @@ st.markdown("""
 }
 
 
-/* Titles inside containers */
+/* Titles inside containers 
 h1, h3 {color: #ecf0f1 !important;}
 </style>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)*/
 
 st.title("Airport Dashboard")
 
