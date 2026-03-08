@@ -84,11 +84,11 @@ with col1:
     st.write("#### Energy Sectors")
     left, right = st.columns(2)
     with left:
-        create_sector_button("sec1", "Airport Terminal")
-        create_sector_button("sec1", "Manufacturing Plant")
+        create_sector_button("Airport Terminal")
+        create_sector_button("Manufacturing Plant")
     with right:
-        create_sector_button("sec1", "GSE")
-        create_sector_button("sec1", "Other Facilities")
+        create_sector_button("GSE")
+        create_sector_button("Other Facilities")
 
 with col2:
     st.markdown("### Gate B")
