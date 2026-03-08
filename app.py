@@ -16,7 +16,7 @@ st.markdown("""
     [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
     /* CARD STYLING (SLIDERS) */
-    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(176, 163, 111, 0.3); border-radius: 15px; padding: 5px; backdrop-filter: blur(10px); margin-bottom: 5px;}
+    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(176, 163, 111, 0.3); border-radius: 15px; padding: 10px; backdrop-filter: blur(10px); margin-bottom: 5px;}
 
     /* Base Button Style */
     .stButton > button {
