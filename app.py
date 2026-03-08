@@ -58,10 +58,10 @@ def create_sector_button(sector):
     key = f"{clean_name}"
     is_active = st.session_state[key]
     # SECTOR BUTTON STYLING
-    bg_color = 'rgba(176, 163, 111, 0.4) !important' if is_active else 'rgba(10, 32, 60, 0.7)'
+    bg_color = '#b0a36f !important' if is_active else '#0a203c'
     border_style = '2px solid #ffffff !important' if is_active else '1px solid #b0a36f'
     text_color = '#ffffff !important' if is_active else '#b0a36f'
-    glow = 'inset 0 0 15px rgba(176, 163, 111, 0.3)' if is_active else 'none'
+    glow = 'inset 0 0 15px #b0a36f' if is_active else 'none'
 
     with stylable_container(
         key=f"container_{key}",
