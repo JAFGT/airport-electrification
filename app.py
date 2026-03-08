@@ -128,8 +128,8 @@ with col1:
     with ct1: create_general_button("Hybrid-Electric")
     with ct2: create_general_button("H2-SAF Combustion")   
 
-    st.slider("Land (Acres)", 0, 100, 75, key="sld_land")
-    st.slider("Grid Cap (MW)", 0, 100, 75, key="sld_gc")
+    st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
+    st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
 
 
 
