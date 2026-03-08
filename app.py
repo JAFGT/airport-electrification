@@ -43,22 +43,21 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. DATA SETUP
+# DATA SETUP
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 
-# 4. INITIALIZE SESSION STATE
+# INITIALIZE SESSION STATE
 for sector in sectors:
     key = f"{sector.replace(' ', '_')}"
     if key not in st.session_state:
         st.session_state[key] = False
 
-# 5. HELPER FUNCTION (Corrected F-String Syntax)
+# CREATE SECTOR BUTTON
 def create_sector_button(sector):
     clean_name = sector.replace(' ', '_')
     key = f"{clean_name}"
     is_active = st.session_state[key]
-    
-    # Python requires double {{ }} to render a literal { } in an f-string
+    # SECTOR BUTTON STYLING
     bg_color = 'rgba(176, 163, 111, 0.4) !important' if is_active else 'rgba(10, 32, 60, 0.7)'
     border_style = '2px solid #ffffff !important' if is_active else '1px solid #b0a36f'
     text_color = '#ffffff !important' if is_active else '#b0a36f'
@@ -67,12 +66,7 @@ def create_sector_button(sector):
     with stylable_container(
         key=f"container_{key}",
         css_styles=f"""
-            button {{
-                background-color: {bg_color};
-                border: {border_style};
-                color: {text_color};
-                box-shadow: {glow};
-            }}
+            button {{ background-color: {bg_color}; border: {border_style}; color: {text_color}; box-shadow: {glow};}}
         """
     ):
         if st.button(sector, key=f"btn_{key}"):
@@ -88,8 +82,10 @@ with col1:
     st.markdown("### Gate A")
     st.slider("Capacity A", 0, 100, 50, key="sld_a")
     st.write("#### Energy Sectors")
+    my_grid = grid(2, vertical_align="bottom")
     for sector in sectors:
-        create_sector_button(sector)
+        with my_grid.container():
+            create_sector_button(sector)
 
 with col2:
     st.markdown("### Gate B")
