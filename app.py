@@ -1,19 +1,23 @@
-import streamlit as st
+with stylable_container(
+    key="footer_container",
+    css_styles="""
+    {
+        padding-top: 100px;
+        box-sizing: border-box;
 
-# Add CSS to target containers
-st.markdown("""
-    <style>
-    .custom-container {
-        background-color: #001f3f;
-        padding: 20px;
-        border-radius: 10px;
+        .element-container {
+            height: 70px;
+            display: flex;
+            color: #ffffff;
+            text-align: center;
+            align-items: center;
+            background-color: #0054a3;
+
+            a {
+                color: #ffffff;
+            }
+        }
     }
-    </style>
-""", unsafe_allow_html=True)
-
-# Streamlit container
-with st.container():
-    st.markdown('<div class="custom-container">', unsafe_allow_html=True)
-    st.write("This container has a blue background and contains widgets")
-    st.slider("Slide me", 0, 100)
-    st.markdown('</div>', unsafe_allow_html=True)
+    """,
+):
+    st.write("For more information, visit www.snowflake.com")
