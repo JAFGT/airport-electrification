@@ -17,7 +17,7 @@ st.markdown("""
 /* Your existing container styles */
 .st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
     background-color: rgba(100, 100, 200, 0.2);
-    border: 2px solid #3498db; 
+    border: 2px solid #b0a36f; 
     border-radius: 12px; 
     padding: 20px; 
     margin-bottom: 20px;
