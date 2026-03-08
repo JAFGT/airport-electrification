@@ -3,6 +3,7 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 # CSS
+
 st.markdown("""
 <style>
 /* Page Background */
@@ -24,9 +25,6 @@ st.markdown("""
     backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
 }
 
-
-/* Titles inside containers 
-h1, h3 {color: #ecf0f1 !important;}*/
 </style>
 """, unsafe_allow_html=True) 
 
@@ -39,6 +37,7 @@ col1, col2, col3 = st.columns([1,1,1], gap="medium")
 with col1:
     with st.container(key="blc1"):
         st.write("### Gate A")
+        gate_a = st.checkbox("Gate A")
         st.slider("Capacity A", 0, 100, 50)
 
 with col2:
