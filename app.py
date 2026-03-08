@@ -12,7 +12,7 @@ st.markdown("""
 .card {background-color: #003057; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
 [data-testid="stAppViewContainer"] .block-container {padding-top: 4rem;}
 
-.h1 {font-size: 40px; color: #ebaa01; font-weight: bold; margin-bottom: 20px;}
+.h1 {font-size: 4000px; color: #ebaa01; font-weight: bold; margin-bottom: 20px;}
 .h2 {font-size: 28px; color: #ffffff; font-weight: bold; margin-bottom: 15px;}
 .h3 {font-size: 22px; color: #00ff00; font-weight: semi-bold; margin-bottom: 10px;}
 .h4 {font-size: 18px; color: #00ffff; font-weight: semi-bold; margin-bottom: 8px;}
