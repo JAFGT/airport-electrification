@@ -20,6 +20,8 @@ st.markdown("""
     border-radius: 12px; 
     padding: 20px; 
     margin-bottom: 20px;
+     width: 100%;
+    box-sizing: border-box;
     backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
 }*/
 
