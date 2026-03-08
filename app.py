@@ -12,12 +12,13 @@ st.markdown("""
 .card {background-color: #003057; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
 [data-testid="stAppViewContainer"] .block-container {padding-top: 4rem;}
 
-.h1 {font-size: 4000px; color: #ebaa01; font-weight: bold; margin-bottom: 20px;}
-.h2 {font-size: 28px; color: #ffffff; font-weight: bold; margin-bottom: 15px;}
-.h3 {font-size: 22px; color: #00ff00; font-weight: semi-bold; margin-bottom: 10px;}
-.h4 {font-size: 18px; color: #00ffff; font-weight: semi-bold; margin-bottom: 8px;}
-.h5 {font-size: 16px; color: #ff00ff; font-weight: normal; margin-bottom: 5px;}
-.h6 {font-size: 14px; color: #aaaaaa; font-weight: normal; margin-bottom: 3px;}
+.h1 {font-size: 50px !important; color: #ebaa01 !important; font-weight: bold !important; margin-bottom: 20px !important;}
+.h2 {font-size: 32px !important; color: #ffffff !important; font-weight: bold !important; margin-bottom: 15px !important;}
+.h3 {font-size: 24px !important; color: #00ff00 !important; font-weight: 600 !important; margin-bottom: 10px !important;}
+.h4 {font-size: 20px !important; color: #00ffff !important; font-weight: 600 !important; margin-bottom: 8px !important;}
+.h5 {font-size: 16px !important; color: #ff00ff !important; font-weight: normal !important; margin-bottom: 5px !important;}
+.h6 {font-size: 14px !important; color: #aaaaaa !important; font-weight: normal !important; margin-bottom: 3px !important;}
+</style>
 
 #.section-title {
 #    font-size: 20px;
