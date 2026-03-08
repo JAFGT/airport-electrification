@@ -6,10 +6,10 @@ st.set_page_config(layout="wide")
 # CSS STYLE
 st.markdown("""
 <style>
-[data-testid="stAppViewContainer"] {background-color: #00182c;}
-[data-testid="stSidebar"] {background-color: #0a1a2a;}
-.block-container {padding-top: 1rem;color: #ebaa01;}
-.card {background-color: #003057; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
+[data-testid="stAppViewContainer"] {background-color: #05172a;}
+[data-testid="stSidebar"] {background-color: #05172a;}
+.block-container {padding-top: 1rem;color: #05172a;}
+.card {background-color: #102f54; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
 [data-testid="stAppViewContainer"] .block-container {padding-top: 4rem;}
 
 .h1 {font-size: 50px !important; color: #ebaa01 !important; font-family: 'Roboto', sans-serif !important; font-weight: bold !important; margin-bottom: 20px !important;}
@@ -37,11 +37,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-def styled_header(text, level):
+def styled_text(text, level):
     st.markdown(f'<p class="{level}">{text}</p>', unsafe_allow_html=True)
 
-styled_header("Airport Electrification Dashboard", "h1")
-#styled_header("Scenario Inputs", "h2")
+styled_text("Airport Electrification Dashboard", "h1")
+#styled_text("Scenario Inputs", "h2")
 #styled_header("Capacity Analytics", "h3")
 
 # ---------- HEADER ----------
@@ -55,7 +55,13 @@ col1, col2, col3 = st.columns([1,1.3,1])
 # SCENARIO INPUTS
 # =========================================================
 with col1:
-    st.markdown('<p style="font-size:24px;">This is a larger paragraph</p>', unsafe_allow_html=True)
+    st.markdown("""
+    <div style="background-color:#003057; padding:20px; border-radius:12px; color:white;">
+        Card 1 content
+    </div>
+    """, unsafe_allow_html=True)
+
+    
     st.markdown("### Scenario Inputs")
     st.markdown("**Energy Load Sector**")
     st.radio("", ["Airport Terminal","Manufacturing Plant","Other Facilities"])
