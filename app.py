@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit_extras as ste  # import all extras
 
 # ---------- PAGE CONFIG ----------
 st.set_page_config(
@@ -18,84 +17,78 @@ st.markdown("---")
 col1, col2, col3 = st.columns([1, 1, 1])
 
 with col1:
-    with ste.stylable_container.stylable_container(
-        key="col1_container",
-        css_styles="""
-        {
-            .element-container {
-                padding: 20px;
-                background-color: #001f3f;
-                border-radius: 12px;
-                color: white;
-            }
-        }
+    st.container()  # optional container for organization
+    st.markdown(
         """
-    ):
-        st.metric("Metric 1", "123", "+5%")
-        st.slider("Slider 1", 0, 100, 50)
+        <div style="
+            padding: 20px;
+            background-color: #001f3f;
+            border-radius: 12px;
+            color: white;
+        ">
+            <h4>Metric 1</h4>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.slider("Slider 1", 0, 100, 50)
+    st.metric("Metric 1 Value", "123", "+5%")
 
 with col2:
-    with ste.stylable_container.stylable_container(
-        key="col2_container",
-        css_styles="""
-        {
-            .element-container {
-                padding: 20px;
-                background-color: #001f3f;
-                border-radius: 12px;
-                color: white;
-            }
-        }
+    st.container()
+    st.markdown(
         """
-    ):
-        st.metric("Metric 2", "456", "-2%")
-        st.slider("Slider 2", 0, 100, 30)
+        <div style="
+            padding: 20px;
+            background-color: #001f3f;
+            border-radius: 12px;
+            color: white;
+        ">
+            <h4>Metric 2</h4>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.slider("Slider 2", 0, 100, 30)
+    st.metric("Metric 2 Value", "456", "-2%")
 
 with col3:
-    with ste.stylable_container.stylable_container(
-        key="col3_container",
-        css_styles="""
-        {
-            .element-container {
-                padding: 20px;
-                background-color: #001f3f;
-                border-radius: 12px;
-                color: white;
-            }
-        }
+    st.container()
+    st.markdown(
         """
-    ):
-        st.metric("Metric 3", "789", "+12%")
-        st.slider("Slider 3", 0, 100, 70)
+        <div style="
+            padding: 20px;
+            background-color: #001f3f;
+            border-radius: 12px;
+            color: white;
+        ">
+            <h4>Metric 3</h4>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.slider("Slider 3", 0, 100, 70)
+    st.metric("Metric 3 Value", "789", "+12%")
 
 # ---------- OTHER CONTENT ----------
 st.markdown("---")
 st.write("Additional dashboard content can go here.")
 
 # ---------- FOOTER ----------
-with ste.stylable_container.stylable_container(
-    key="footer_container",
-    css_styles="""
-    {
-        padding-top: 50px;
-        box-sizing: border-box;
-
-        .element-container {
-            height: 70px;
-            display: flex;
-            justify-content: center;
-            color: #ffffff;
-            text-align: center;
-            align-items: center;
-            background-color: #0054a3;
-            border-radius: 12px;
-
-            a {
-                color: #ffffff;
-                text-decoration: underline;
-            }
-        }
-    }
+st.markdown(
+    """
+    <div style="
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #0054a3;
+        color: white;
+        border-radius: 12px;
+        margin-top: 50px;
+    ">
+        For more information, visit <a href='https://www.snowflake.com' style='color:white; text-decoration:underline;'>www.snowflake.com</a>
+    </div>
     """,
-):
-    st.write("For more information, visit [www.snowflake.com](https://www.snowflake.com)")
+    unsafe_allow_html=True
+)
