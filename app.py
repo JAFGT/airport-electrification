@@ -40,61 +40,53 @@ st.title("Airport Dashboard")
 # ---------- Energy sectors ----------
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 
-# ---------- Pre-assign session state and keys ----------
-buttons = {
-    "sec1": {s: f"sec1_{s}_btn" for s in sectors},
-    "sec2": {s: f"sec2_{s}_btn" for s in sectors},
-    "sec3": {s: f"sec3_{s}_btn" for s in sectors}
-}
+# ---------- Initialize session state ----------
+for gate in ["sec1", "sec2", "sec3"]:
+    for sector in sectors:
+        key = f"{gate}_{sector.replace(' ','_')}"
+        if key not in st.session_state:
+            st.session_state[key] = False
 
-# Initialize session state
-for container, sector_keys in buttons.items():
-    for sector, key in sector_keys.items():
-        state_key = f"{container}_{sector}"
-        if state_key not in st.session_state:
-            st.session_state[state_key] = False
+# ---------- Helper to create a button ----------
+def create_button(gate, sector):
+    key = f"{gate}_{sector.replace(' ','_')}"
+    label = f"✅ {sector}" if st.session_state[key] else sector
+    if st.button(label, key=f"{key}_btn"):
+        st.session_state[key] = not st.session_state[key]
 
-# ---------- Helper function ----------
-def toggle(container, sector):
-    state_key = f"{container}_{sector}"
-    widget_key = buttons[container][sector]
-    label = f"✅ {sector}" if st.session_state[state_key] else sector
-    if st.button(label, key=widget_key):
-        st.session_state[state_key] = not st.session_state[state_key]
-
-# ---------- Columns ----------
+# ---------- Layout ----------
 col1, col2, col3 = st.columns([1,1,1], gap="medium")
 
-# Container 1
+# Gate A
 with col1:
     with st.container():
         st.write("### Gate A")
         st.slider("Capacity A", 0, 100, 50)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            toggle("sec1", sector)
+            create_button("sec1", sector)
 
-# Container 2
+# Gate B
 with col2:
     with st.container():
         st.write("### Gate B")
         st.slider("Capacity B", 0, 100, 30)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            toggle("sec2", sector)
+            create_button("sec2", sector)
 
-# Container 3
+# Gate C
 with col3:
     with st.container():
         st.write("### Gate C")
         st.slider("Capacity C", 0, 100, 75)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            toggle("sec3", sector)
+            create_button("sec3", sector)
 
-# Display checked sectors
+# ---------- Display checked sectors ----------
 st.markdown("---")
 st.write("**Checked Sectors:**")
-for container in ["sec1","sec2","sec3"]:
-    checked = [s for s in sectors if st.session_state[f"{container}_{s}"]]
-    st.write(f"{container}: {checked}")
+for gate in ["sec1","sec2","sec3"]:
+    checked = [s for s in sectors if st.session_state[f"{gate}_{s.replace(' ','_')}"]]
+    st.write(f"{gate}: {checked}")
