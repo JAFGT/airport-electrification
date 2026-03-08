@@ -134,7 +134,7 @@ with col1:
     with cy5:
         create_year_button("2070")
 
- st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Target Year</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Target Year</p>', unsafe_allow_html=True)
     cy1, cy2, cy3, cy4, cy5 = st.columns(5)
     with cy1:
         create_year_button("2030")
