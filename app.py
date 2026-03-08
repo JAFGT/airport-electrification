@@ -3,14 +3,10 @@ from streamlit_extras.buy_me_a_coffee import button as coffee_button
 from streamlit_extras.annotated_text import annotated_text
 from streamlit_extras.stylable_container import stylable_container
 
-# 1. PAGE CONFIGURATION
-st.set_page_config(
-    page_title="Airport Electrification Dashboard",
-    page_icon="✈️",
-    layout="wide"
-)
+# PAGE CONFIG
+st.set_page_config( page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide")
 
-# 2. CSS FOR BASE STYLING
+# CSS STYLING
 st.markdown("""
 <style>
     /* Main Background Gradient */
@@ -44,6 +40,7 @@ st.markdown("""
         transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
+        margin-bottom: 20px !important;
     }
 
     /* Hover State */
