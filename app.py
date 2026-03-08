@@ -147,7 +147,7 @@ with col1:
     with cy5:
         create_year_button("2070")
 
-st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Fleet Transition Type</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Fleet Transition Type</p>', unsafe_allow_html=True)
     ct1, ct2 = st.columns(2)
     with ct1:
         create_general_button("Hybrid-Electric")
