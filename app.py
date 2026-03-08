@@ -29,7 +29,7 @@ st.markdown("""
 st.markdown("""
 <style>
 h1 {
-    margin-top: 3rem;
+    margin-top: 10rem;
     margin-bottom: 1rem;
 }
 </style>
