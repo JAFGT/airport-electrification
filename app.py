@@ -29,7 +29,7 @@ st.markdown("""
 st.markdown("""
 <style>
 h1 {
-    margin-top: 100px;  /* push the title down */
+    margin-top: 1000px;  /* push the title down */
 }
 </style>
 """, unsafe_allow_html=True)
