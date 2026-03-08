@@ -26,10 +26,15 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- HEADER ----------
+st.markdown("""
+<style>
 h1 {
     margin-top: 3rem;
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
 }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("Airport Electrification Dashboard")
 st.markdown("---")
 
