@@ -18,7 +18,6 @@ st.markdown("""
 .h4 {font-size: 20px !important; color: #00ffff !important; font-weight: 600 !important; margin-bottom: 8px !important;}
 .h5 {font-size: 16px !important; color: #ff00ff !important; font-weight: normal !important; margin-bottom: 5px !important;}
 .h6 {font-size: 14px !important; color: #aaaaaa !important; font-weight: normal !important; margin-bottom: 3px !important;}
-</style>
 
 #.section-title {
 #    font-size: 20px;
