@@ -2,56 +2,61 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
-# CSS
-
+# CSS (same as yours)
 st.markdown("""
 <style>
-
-/* PAGE BACKGROUND */
-[data-testid="stAppViewContainer"] {background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); color: #ffffff;}
-
-/* HEADER TRANSPARENCY */
-[data-testid="stHeader"] {background: rgba(0,0,0,0);}
-
-/*CONTAINER STYLES*/
-.st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
-    background-color: #102f54; border: 2px solid #b0a36f; border-radius: 12px; padding: 20px; margin-bottom: 20px; 
-    backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
+div[data-testid="stContainer"][data-key^="blc"] {
+    background-color: #102f54;
+    border: 2px solid #b0a36f;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* BUTTON */
-.stButton>button:active {background-color: #b0a36f; color: #102f54;}
-
+.stButton>button:active {
+    background-color: #b0a36f;
+    color: #102f54;
+}
 </style>
-""", unsafe_allow_html=True) 
-
-#ENERGY LOAD SECTORS
-sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
-for sector in sectors:
-    if sector not in st.session_state:
-        st.session_state[sector] = False  # unchecked by default
-
+""", unsafe_allow_html=True)
 
 st.title("Airport Dashboard")
 
-# Columns
+# Energy sectors
+sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
+
+# ---------- Columns ----------
 col1, col2, col3 = st.columns([1,1,1], gap="medium")
 
-# Containers with sliders
+# Container 1
 with col1:
     with st.container(key="blc1"):
         st.write("### Gate A")
         st.slider("Capacity A", 0, 100, 50)
-        for sector in sectors:
-            label = f"✅ {sector}" if st.session_state[sector] else sector
-            if st.button(label, key=f"btn_{sector}"):
-                st.session_state[sector] = not st.session_state[sector]
 
+        for sector in sectors:
+            # Make a unique key per container + sector
+            button_key = f"blc1_{sector}"
+
+            # Initialize state if not present
+            if button_key not in st.session_state:
+                st.session_state[button_key] = False
+
+            # Label depends on checked state
+            label = f"✅ {sector}" if st.session_state[button_key] else sector
+
+            if st.button(label, key=button_key):
+                st.session_state[button_key] = not st.session_state[button_key]
+
+# Container 2
 with col2:
     with st.container(key="blc2"):
-        st.write("### That's Crazy LOL")
+        st.write("### Gate B")
         st.slider("Capacity B", 0, 100, 30)
 
+# Container 3
 with col3:
     with st.container(key="blc3"):
         st.write("### Gate C")
