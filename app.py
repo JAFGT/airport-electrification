@@ -3,19 +3,26 @@ from streamlit_extras.buy_me_a_coffee import button as coffee_button
 from streamlit_extras.annotated_text import annotated_text
 from streamlit_extras.stylable_container import stylable_container
 
-# 1. PAGE CONFIG
-st.set_page_config(page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide")
+# 1. PAGE CONFIGURATION
+st.set_page_config(
+    page_title="Airport Electrification Dashboard",
+    page_icon="✈️",
+    layout="wide"
+)
 
 # 2. CSS FOR BASE STYLING
 st.markdown("""
 <style>
+    /* Main Background Gradient */
     [data-testid="stAppViewContainer"] {
         background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); 
         color: #ffffff;
     }
+    
+    /* Transparent Header */
     [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
-    /* CONTAINER STYLING */
+    /* Card Styling for Sliders */
     div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {
         background: rgba(255, 255, 255, 0.05); 
         border: 1px solid rgba(176, 163, 111, 0.3); 
@@ -25,20 +32,21 @@ st.markdown("""
         margin-bottom: 10px;
     }
 
-    /* BASE BUTTON STYLE */
+    /* Base Button Style (Applied to all) */
     .stButton > button {
         background-color: rgba(10, 32, 60, 0.7);
         color: #b0a36f;
         border: 1px solid #b0a36f;
         border-radius: 8px;
         width: 100%;
-        padding: 10px 20px; /* Adjusted horizontal padding */
+        padding: 10px 20px;
         font-weight: 600;
         transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
 
+    /* Hover State */
     .stButton > button:hover {
         border-color: #ffffff;
         color: #ffffff;
@@ -48,25 +56,23 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Data Setup
+# 3. DATA SETUP
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 gate_id = "sec1"
 
-# 4. Initialize Session State
+# 4. INITIALIZE SESSION STATE
 for sector in sectors:
     key = f"{gate_id}_{sector.replace(' ', '_')}"
     if key not in st.session_state:
         st.session_state[key] = False
 
-# 5. Logic: Helper function with Dynamic Styling
+# 5. HELPER FUNCTION (Dynamic Styling & Corrected F-String Syntax)
 def create_sector_button(gate_id, sector):
     clean_name = sector.replace(' ', '_')
     key = f"{gate_id}_{clean_name}"
-    
     is_active = st.session_state[key]
     
-    # Use stylable_container to apply the "Active" look if state is True
-    # We remove the "check" and use a glow/border change instead
+    # Note the double {{ and }} to escape CSS braces in a Python f-string
     with stylable_container(
         key=f"container_{key}",
         css_styles=f"""
@@ -82,7 +88,7 @@ def create_sector_button(gate_id, sector):
             st.session_state[key] = not st.session_state[key]
             st.rerun()
 
-# 6. UI Layout
+# 6. UI LAYOUT
 st.title("✈️ Airport Dashboard")
 
 col1, col2, col3 = st.columns(3, gap="large")
@@ -104,18 +110,19 @@ with col3:
     st.slider("Capacity C", 0, 100, 75, key="sld_c")
     st.info("Sectors managed via Primary Terminal (Gate A)")
 
-# 7. Summary Display
+# 7. SUMMARY DISPLAY
 st.markdown("---")
 st.subheader("📊 Monitoring Summary")
 
 checked_list = [s for s in sectors if st.session_state[f"sec1_{s.replace(' ', '_')}"]]
 
 if checked_list:
-    args = ["Gate A Active: "]
+    # Use annotated_text for a professional badge look
+    display_args = ["Gate A Status: "]
     for item in checked_list:
-        args.append((item, "ACTIVE", "#b0a36f"))
-        args.append("  ")
-    annotated_text(*args)
+        display_args.append((item, "ACTIVE", "#b0a36f"))
+        display_args.append("  ")
+    annotated_text(*display_args)
 else:
     st.write("*No sectors active in Gate A*")
 
