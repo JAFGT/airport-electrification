@@ -109,6 +109,7 @@ col1, col2, col3 = st.columns(3, gap="large")
 
 # SCENARIO INPUTS
 with col1:
+    # ENERGY LOAD SECTORS
     st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Scenario Inputs</p>', unsafe_allow_html=True)
     st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold;">Energy Load Sectors</p>', unsafe_allow_html=True)
     left, right = st.columns(2)
@@ -119,7 +120,8 @@ with col1:
         create_general_button("GSE")
         create_general_button("Other Facilities")
 
-    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 30px;">Target Year</p>', unsafe_allow_html=True)
+    # TARGET YEAR
+    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Target Year</p>', unsafe_allow_html=True)
     cy1, cy2, cy3, cy4, cy5 = st.columns(5)
     with cy1:
         create_year_button("2030")
@@ -131,8 +133,26 @@ with col1:
         create_year_button("2060")
     with cy5:
         create_year_button("2070")
-        
 
+ st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Target Year</p>', unsafe_allow_html=True)
+    cy1, cy2, cy3, cy4, cy5 = st.columns(5)
+    with cy1:
+        create_year_button("2030")
+    with cy2:
+        create_year_button("2040")
+    with cy3:
+        create_year_button("2050")
+    with cy4:
+        create_year_button("2060")
+    with cy5:
+        create_year_button("2070")
+
+st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Fleet Transition Type</p>', unsafe_allow_html=True)
+    ct1, ct2 = st.columns(2)
+    with ct1:
+        create_general_button("Hybrid-Electric")
+    with ct2:
+        create_general_button("H2-SAF Combustion")   
 
 
 with col2:
