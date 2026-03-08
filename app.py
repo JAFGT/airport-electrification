@@ -28,7 +28,7 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* The "Nice" Button Styling
+    /* The "Nice" Button Styling*/
     .stButton > button {
         background-color: rgba(10, 32, 60, 0.7);
         color: #b0a36f;
@@ -39,7 +39,7 @@ st.markdown("""
         font-weight: 600;
         letter-spacing: 0.5px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }*/
+    }
 
     /* Hover Effect */
     .stButton > button:hover {
@@ -141,6 +141,3 @@ for gate_name, gate_id in gate_keys.items():
 # 8. Footer Extra
 if not has_any_checked:
     st.info("Select energy sectors above to begin monitoring.")
-
-st.markdown("<br>", unsafe_allow_html=True)
-coffee_button(username="yourname", floating=False, text="Support Dashboard")
