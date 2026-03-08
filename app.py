@@ -24,10 +24,24 @@ st.markdown("""
     backdrop-filter: blur(5px);
 }
 
-/* RADIO BUTTON STYLING */
+/* RADIO BUTTON STYLING TO LOOK LIKE BUTTONS */
 div[data-baseweb="radio"] label {
-    color: #b0a36f; /* gold text */
+    display: block;
+    background-color: #0a203c;
+    color: #b0a36f;
+    border: 2px solid #b0a36f;
+    border-radius: 8px;
+    padding: 8px 0;
+    margin-bottom: 5px;
+    text-align: center;
     font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+div[data-baseweb="radio"] input:checked + label {
+    background-color: #b0a36f !important;
+    color: #102f54 !important;
 }
 </style>
 """, unsafe_allow_html=True)
