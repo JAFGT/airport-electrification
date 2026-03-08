@@ -82,10 +82,13 @@ with col1:
     st.markdown("### Gate A")
     st.slider("Capacity A", 0, 100, 50, key="sld_a")
     st.write("#### Energy Sectors")
-    my_grid = grid(2, vertical_align="bottom")
-    for sector in sectors:
-        with my_grid.container():
-            create_sector_button(sector)
+   left, right = st.columns(2)
+    with left:
+        create_sector_button("sec1", "Airport Terminal")
+        create_sector_button("sec1", "Manufacturing Plant")
+    with right:
+        create_sector_button("sec1", "GSE")
+        create_sector_button("sec1", "Other Facilities")
 
 with col2:
     st.markdown("### Gate B")
