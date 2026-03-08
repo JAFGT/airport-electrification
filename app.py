@@ -79,7 +79,7 @@ st.title("Airport Electrification Dashboard")
 col1, col2, col3 = st.columns(3, gap="large")
 
 with col1:
-    st.markdown("### Gate A")
+    st.markdown('<p style="font-size: 24px; color: yellow; font-weight: bold;">Scenario Inputs</p>', unsafe_allow_html=True)
     st.slider("Capacity A", 0, 100, 50, key="sld_a")
     st.write("#### Energy Sectors")
     left, right = st.columns(2)
