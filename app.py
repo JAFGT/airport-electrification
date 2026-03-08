@@ -10,16 +10,23 @@ st.markdown("""
 [data-testid="stSidebar"] {background-color: #0a1a2a;}
 .block-container {padding-top: 1rem;color: #ebaa01;}
 .card {background-color: #003057; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
-
 [data-testid="stAppViewContainer"] .block-container {padding-top: 4rem;}
 
+.h1 {font-size: 40px; color: #ebaa01; font-weight: bold; margin-bottom: 20px;}
+.h2 {font-size: 28px; color: #ffffff; font-weight: bold; margin-bottom: 15px;}
+.h3 {font-size: 22px; color: #00ff00; font-weight: semi-bold; margin-bottom: 10px;}
+.h4 {font-size: 18px; color: #00ffff; font-weight: semi-bold; margin-bottom: 8px;}
+.h5 {font-size: 16px; color: #ff00ff; font-weight: normal; margin-bottom: 5px;}
+.h6 {font-size: 14px; color: #aaaaaa; font-weight: normal; margin-bottom: 3px;}
 
-.section-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: 
-}
+#.section-title {
+#    font-size: 20px;
+#    font-weight: 600;
+#    margin-bottom: 10px;
+#    color: 
+#}
+
+
 
 .placeholder {
     height: 120px;
@@ -28,6 +35,14 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
+
+def styled_header(text, level):
+    st.markdown(f'<p class="{level}">{text}</p>', unsafe_allow_html=True)
+
+styled_header("Airport Electrification Dashboard", "h1")
+styled_header("Scenario Inputs", "h2")
+styled_header("Capacity Analytics", "h3")
 
 # ---------- HEADER ----------
 st.title("Airport Electrification Dashboard")
