@@ -3,29 +3,6 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 # ---------- CSS for containers ----------
-st.markdown("""
-<style>
-.stContainer {
-    border-radius: 20px;
-    background-color: #102f54;
-    padding: 20px;
-    margin-bottom: 20px;
-    color: white;
-    font-family: 'Roboto Slab', serif;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-}
-.stContainer h2 {
-    color: #ebaa01;
-    margin-bottom: 15px;
-}
-.placeholder {
-    height: 120px;
-    border-radius: 10px;
-    background-color: #1f2937;
-    margin-bottom: 15px;
-}
-</style>
-""", unsafe_allow_html=True)
 
 # ---------- HEADER ----------
 st.markdown('<h1 style="color:#ebaa01; font-family:\'Roboto Slab\', serif;">Airport Electrification Dashboard</h1>', unsafe_allow_html=True)
