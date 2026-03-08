@@ -34,9 +34,6 @@ h1, h3 {color: #ecf0f1 ! deprivation;}
 }
 
 /* filled portion */
-[data-testid="stSlider"] [data-baseweb="slider"] > div > div {
-    background-color: #b0a36f !important;
-}
 
 /* thumb */
 [data-testid="stSlider"] [data-baseweb="slider"] [role="slider"] {
