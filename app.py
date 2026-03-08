@@ -1,29 +1,42 @@
 import streamlit as st
 from streamlit_extras.buy_me_a_coffee import button as coffee_button
 from streamlit_extras.annotated_text import annotated_text
+from streamlit_extras.stylable_container import stylable_container
 
-# PAGE CONFIG
-st.set_page_config(page_title="Airport Electrification Dashboard",page_icon="✈️", layout="wide")
+# 1. PAGE CONFIG
+st.set_page_config(page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide")
 
-# CSS FOR STYLING
+# 2. CSS FOR BASE STYLING
 st.markdown("""
 <style>
-    [data-testid="stAppViewContainer"] {background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); color: #ffffff;}
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); 
+        color: #ffffff;
+    }
     [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
     /* CONTAINER STYLING */
-     /*div[data-testid="stVerticalBlock"] > div:has(div.stButton),*/
-    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(176, 163, 111, 0.3); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 10px;}
+    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {
+        background: rgba(255, 255, 255, 0.05); 
+        border: 1px solid rgba(176, 163, 111, 0.3); 
+        border-radius: 15px; 
+        padding: 20px; 
+        backdrop-filter: blur(10px); 
+        margin-bottom: 10px;
+    }
 
+    /* BASE BUTTON STYLE */
     .stButton > button {
         background-color: rgba(10, 32, 60, 0.7);
         color: #b0a36f;
         border: 1px solid #b0a36f;
         border-radius: 8px;
         width: 100%;
-        padding: 10px 10px;
+        padding: 10px 20px; /* Adjusted horizontal padding */
         font-weight: 600;
         transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .stButton > button:hover {
@@ -32,35 +45,42 @@ st.markdown("""
         box-shadow: 0 0 12px rgba(176, 163, 111, 0.5);
         transform: translateY(-2px);
     }
-
-    /* Active State Style */
-    button:has(p:contains("✅")) {
-        background-color: rgba(176, 163, 111, 0.2) !important;
-        border: 1.5px solid #b0a36f !important;
-    }
 </style>
 """, unsafe_allow_html=True)
 
 # 3. Data Setup
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
-# We only need the key for sec1 (Gate A) now
 gate_id = "sec1"
 
-# 4. Initialize Session State for Gate A only
+# 4. Initialize Session State
 for sector in sectors:
     key = f"{gate_id}_{sector.replace(' ', '_')}"
     if key not in st.session_state:
         st.session_state[key] = False
 
-# 5. Logic: Helper function
+# 5. Logic: Helper function with Dynamic Styling
 def create_sector_button(gate_id, sector):
     clean_name = sector.replace(' ', '_')
     key = f"{gate_id}_{clean_name}"
-    label = f"✅ {sector}" if st.session_state[key] else sector
     
-    if st.button(label, key=f"btn_{key}"):
-        st.session_state[key] = not st.session_state[key]
-        st.rerun()
+    is_active = st.session_state[key]
+    
+    # Use stylable_container to apply the "Active" look if state is True
+    # We remove the "check" and use a glow/border change instead
+    with stylable_container(
+        key=f"container_{key}",
+        css_styles=f"""
+            button {{
+                background-color: { 'rgba(176, 163, 111, 0.3) !important' if is_active else 'rgba(10, 32, 60, 0.7)' }};
+                border: { '2px solid #ffffff !important' if is_active else '1px solid #b0a36f' }};
+                color: { '#ffffff !important' if is_active else '#b0a36f' }};
+                box-shadow: { 'inset 0 0 10px rgba(176, 163, 111, 0.5)' if is_active else 'none' };
+            }}
+        """
+    ):
+        if st.button(sector, key=f"btn_{key}"):
+            st.session_state[key] = not st.session_state[key]
+            st.rerun()
 
 # 6. UI Layout
 st.title("✈️ Airport Dashboard")
@@ -71,7 +91,6 @@ with col1:
     st.markdown("### Gate A")
     st.slider("Capacity A", 0, 100, 50, key="sld_a")
     st.write("#### Energy Sectors")
-    # Buttons ONLY rendered here
     for sector in sectors:
         create_sector_button("sec1", sector)
 
