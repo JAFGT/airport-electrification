@@ -1,31 +1,32 @@
 import streamlit as st
 
-# CSS
+# CSS 
 st.markdown("""
 <style>
-/* 1. Change the page background */
+/* 1. Change the full page background */
 [data-testid="stAppViewContainer"] {
-    background-color: #0e1117;
+    background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%);
+    color: #ffffff;
 }
 
-/* 2. Change the slider color (Track and Thumb) */
-/* The track (the line) */
-.stSlider [data-baseweb="slider"] > div > div > div > div {
-    background-color: #3498db !important;
+/* 2. Make the header transparent */
+[data-testid="stHeader"] {
+    background: rgba(0,0,0,0);
 }
 
-/* The thumb (the circle) */
-.stSlider [data-baseweb="slider"] > div > div > div > div > div {
-    background-color: #3498db !important;
-}
-
-/* 3. Your original container styles */
+/* Your existing container styles */
 .st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
-    background-color: rgba(100, 100, 200, 0.3);
-    border: 2px solid #3498db; 
-    border-radius: 9px; 
+    background-color: rgba(100, 100, 200, 0.2);
+    border: 2px solid #b0a36f; 
+    border-radius: 12px; 
     padding: 20px; 
     margin-bottom: 20px;
+    backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
+}
+
+/* Optional: Make titles stand out */
+h1, h3 {
+    color: #ecf0f1 ! deprivation;
 }
 </style>
 """, unsafe_allow_html=True)
