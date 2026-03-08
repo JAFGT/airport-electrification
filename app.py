@@ -42,7 +42,7 @@ with col1:
     with st.container(key="blc1"):
         st.write("### Gate A")
         st.slider("Capacity A", 0, 100, 50)
-        for sectors
+        for sector in sectors
             label = f"✅ {sector}" if st.session_state[sector] else sector
             if st.button(label, key=f"btn_{sector}"):
                 st.session_state[sector] = not st.session_state[sector]
