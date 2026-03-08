@@ -42,7 +42,7 @@ col1, col2, col3 = st.columns(3)
 with col1:
     with st.container(key="blc1"):
         st.write("### Gate A")
-        st.slider("Capacity A", 0, 100, 50)
+        st.slider("Capacity A", 0, 100, 50, key="s1")
 
 with col2:
     with st.container(key="blc2"):
