@@ -45,10 +45,15 @@ st.markdown("""
 
 # DATA SETUP
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
+years = ["2030","2040","2050","2060","2070]
 
 # INITIALIZE SESSION STATE
 for sector in sectors:
     key = f"{sector.replace(' ', '_')}"
+    if key not in st.session_state:
+        st.session_state[key] = False
+for year in years:
+    key = f"{year.replace(' ', '_')}"
     if key not in st.session_state:
         st.session_state[key] = False
 
@@ -62,7 +67,6 @@ def create_sector_button(sector):
     border_style = '2px solid #ffffff !important' if is_active else '1px solid #b0a36f'
     text_color = '#ffffff !important' if is_active else '#b0a36f'
     glow = 'inset 0 0 15px #b0a36f' if is_active else 'none'
-
     with stylable_container(
         key=f"container_{key}",
         css_styles=f"""
@@ -73,6 +77,25 @@ def create_sector_button(sector):
             st.session_state[key] = not st.session_state[key]
             st.rerun()
 
+def create_year_button(year):
+    clean_name = year.replace(' ', '_')
+    key = f"{clean_name}"
+    is_active = st.session_state[key]
+    # YEAR BUTTON STYLING
+    bg_color = '#0a203c !important' if is_active else '#0a203c'
+    border_style = '2px solid #69ff47 !important' if is_active else '1px solid #ffffff'
+    text_color = '#69ff47 !important' if is_active else '#fffff'
+    glow = 'inset 0 0 15px #69ff47' if is_active else 'none'
+    with stylable_container(
+        key=f"container_{key}",
+        css_styles=f"""
+            button {{ background-color: {bg_color}; border: {border_style}; color: {text_color}; box-shadow: {glow};}}
+        """
+    ):
+        if st.button(year, key=f"btn_{key}"):
+            st.session_state[key] = not st.session_state[key]
+            st.rerun()
+
 # UI Layout
 st.title("Airport Electrification Dashboard")
 
@@ -80,7 +103,6 @@ col1, col2, col3 = st.columns(3, gap="large")
 
 with col1:
     st.markdown('<p style="font-size: 24px; color: #b0a36f; font-weight: bold;">Scenario Inputs</p>', unsafe_allow_html=True)
-    st.slider("Capacity A", 0, 100, 50, key="sld_a")
     st.write("#### Energy Sectors")
     left, right = st.columns(2)
     with left:
@@ -89,6 +111,21 @@ with col1:
     with right:
         create_sector_button("GSE")
         create_sector_button("Other Facilities")
+   
+    cy1, cy2, cy3, cy4, cy5 = st.columns(5)
+    with cy1:
+        create_year_button("2030")
+    with cy2:
+        create_year_button("2040")
+    with cy3:
+        create_year_button("2050")
+    with cy4:
+        create_year_button("2060")
+    with cy5:
+        create_year_button("2070")
+        
+
+
 
 with col2:
     st.markdown("### Gate B")
