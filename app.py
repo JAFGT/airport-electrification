@@ -49,11 +49,19 @@ col1, col2, col3 = st.columns([1,1.3,1])
 # SCENARIO INPUTS
 # =========================================================
 with col1:
-    st.markdown("""
-    st.markdown('<div class="card" style="background-color:#003057; padding:20px; border-radius:12px; color:white;">', unsafe_allow_html=True)
-    energy_load = st.slider("", min_value=50, max_value=500, value=120, step=10)
+   # Card container
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    
+    # Header inside the card
+    st.markdown('<h2 style="color:white;">Scenario Inputs</h2>', unsafe_allow_html=True)
+    
+    # Streamlit widgets inside the card
+    energy_load = st.slider("Energy Load (MW)", 50, 500, 120)
+    st.radio("Energy Load Sector", ["Airport Terminal","Manufacturing Plant","Other Facilities"])
+    st.radio("Target Year", ["2030","2040","2050","2060","2070"])
+    
+    # Close the card div
     st.markdown('</div>', unsafe_allow_html=True)
-
     
     st.markdown("### Scenario Inputs")
     st.markdown("**Energy Load Sector**")
@@ -114,6 +122,4 @@ with bottom1:
 with bottom2:
     st.markdown("### Procurement & Final Layout")
     st.markdown('<div class="placeholder" style="height:200px"></div>', unsafe_allow_html=True)
-    st.markdown("""
-    **Procurement**
-    """)
+    
