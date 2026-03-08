@@ -42,9 +42,9 @@ sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 
 # ---------- Pre-assign session state and keys ----------
 buttons = {
-    "sec1": {s: f"blc1_{s}_btn" for s in sectors},
-    "sec2": {s: f"blc2_{s}_btn" for s in sectors},
-    "sec3": {s: f"blc3_{s}_btn" for s in sectors}
+    "sec1": {s: f"sec1_{s}_btn" for s in sectors},
+    "sec2": {s: f"sec2_{s}_btn" for s in sectors},
+    "sec3": {s: f"sec3_{s}_btn" for s in sectors}
 }
 
 # Initialize session state
@@ -72,7 +72,7 @@ with col1:
         st.slider("Capacity A", 0, 100, 50)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            toggle("blc1", sector)
+            toggle("sec1", sector)
 
 # Container 2
 with col2:
@@ -81,7 +81,7 @@ with col2:
         st.slider("Capacity B", 0, 100, 30)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            toggle("blc2", sector)
+            toggle("sec2", sector)
 
 # Container 3
 with col3:
@@ -90,11 +90,11 @@ with col3:
         st.slider("Capacity C", 0, 100, 75)
         st.write("#### Energy Sectors")
         for sector in sectors:
-            toggle("blc3", sector)
+            toggle("sec3", sector)
 
 # Display checked sectors
 st.markdown("---")
 st.write("**Checked Sectors:**")
-for container in ["blc1","blc2","blc3"]:
+for container in ["sec1","sec2","sec3"]:
     checked = [s for s in sectors if st.session_state[f"{container}_{s}"]]
     st.write(f"{container}: {checked}")
