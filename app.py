@@ -30,7 +30,7 @@ h1, h3 {
 }
 
 .stSlider [data-baseweb="slider"] > div > div > div > div {
-    background-color: #FF4B4B !important;
+    background-color: #b0a36f !important;
 }
 
 </style>
