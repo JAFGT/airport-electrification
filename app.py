@@ -1,46 +1,43 @@
-
-
 import streamlit as st
 
-# CSS 
+st.set_page_config(layout="wide")
 
+# CSS
 st.markdown("""
 <style>
-
-/* Page Background (Gradient */
-[data-testid="stAppViewContainer"] {background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); color: #ffffff;}
+/* Page Background */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%);
+    color: #ffffff;
+}
 
 /* Header Transparency */
 [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
-/* Container Styles */
-.st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
+/* Containers targeted by key */
+div[data-testid="stContainer"][data-key="blc1"],
+div[data-testid="stContainer"][data-key="blc2"],
+div[data-testid="stContainer"][data-key="blc3"] {
     background-color: #102f54;
     border: 2px solid #b0a36f;
-    border-radius: 12px; 
-    padding: 20px; 
+    border-radius: 12px;
+    padding: 20px;
     margin-bottom: 20px;
-     width: 100%;
+    width: 100%;          /* fill column */
     box-sizing: border-box;
-    backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
 }
 
-/* Optional: Make titles stand out */
-h1, h3 {color: #ecf0f1 ! deprivation;}
-
-/* SLIDER COLORS */
-/*.stSlider [data-baseweb="slider"] > div > div > div {background-color: #b0a36f !important;}*/
-/*.stSlider [data-baseweb="slider"] > div > div > div > div {background-color: #b0a36f !important;}*/
-
-
+/* Titles inside containers */
+h1, h3 {color: #ecf0f1 !important;}
 </style>
 """, unsafe_allow_html=True)
 
-
 st.title("Airport Dashboard")
 
+# Columns
+col1, col2, col3 = st.columns([1,1,1], gap="medium")
 
-col1, col2, col3 = st.columns([1, 1, 1], gap="medium")  # "gap" controls spacing between columns
+# Containers with sliders
 with col1:
     with st.container(key="blc1"):
         st.write("### Gate A")
