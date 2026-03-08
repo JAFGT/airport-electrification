@@ -11,15 +11,14 @@ st.markdown("""
 .block-container {padding-top: 1rem;color: #ebaa01;}
 .card {background-color: #003057; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
 
-[data-testid="stAppViewContainer"] .block-container {
-    padding-top: 4rem;  /* increase this to move everything down */
-}
+[data-testid="stAppViewContainer"] .block-container {padding-top: 4rem;}
 
 
 .section-title {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 10px;
+    color: 
 }
 
 .placeholder {
@@ -31,15 +30,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- HEADER ----------
-st.markdown("""
-<style>
-h1 {
-    margin-top: 10rem;
-    margin-bottom: 1rem;
-}
-</style>
-""", unsafe_allow_html=True)
-
 st.title("Airport Electrification Dashboard")
 st.markdown("---")
 
@@ -50,6 +40,7 @@ col1, col2, col3 = st.columns([1,1.3,1])
 # SCENARIO INPUTS
 # =========================================================
 with col1:
+    st.markdown('<p style="font-size:24px;">This is a larger paragraph</p>', unsafe_allow_html=True)
     st.markdown("### Scenario Inputs")
     st.markdown("**Energy Load Sector**")
     st.radio("", ["Airport Terminal","Manufacturing Plant","Other Facilities"])
