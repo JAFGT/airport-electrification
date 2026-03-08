@@ -28,24 +28,6 @@ h1, h3 {color: #ecf0f1 ! deprivation;}
 /*.stSlider [data-baseweb="slider"] > div > div > div {background-color: #b0a36f !important;} SLIDER*/
 /*.stSlider [data-baseweb="slider"] > div > div > div > div {background-color: #b0a36f !important;} KNOB*/
 
-/* full track */
-[data-testid="stSlider"] [data-baseweb="slider"] > div {
-    background-color: #b0a36f !important;
-}
-
-/* filled portion */
-
-/* thumb */
-[data-testid="stSlider"] [data-baseweb="slider"] [role="slider"] {
-    background-color: #b0a36f !important;
-    border-color: #b0a36f !important;
-}
-
-/* remove blue focus ring */
-[data-testid="stSlider"] [role="slider"]:focus {
-    box-shadow: 0 0 0 2px #b0a36f !important;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
