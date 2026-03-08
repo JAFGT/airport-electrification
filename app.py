@@ -42,9 +42,9 @@ sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 
 # ---------- Pre-assign session state and keys ----------
 buttons = {
-    "blc1": {s: f"blc1_{s}_btn" for s in sectors},
-    "blc2": {s: f"blc2_{s}_btn" for s in sectors},
-    "blc3": {s: f"blc3_{s}_btn" for s in sectors}
+    "sec1": {s: f"blc1_{s}_btn" for s in sectors},
+    "sec2": {s: f"blc2_{s}_btn" for s in sectors},
+    "sec3": {s: f"blc3_{s}_btn" for s in sectors}
 }
 
 # Initialize session state
