@@ -14,7 +14,7 @@ st.markdown("""
 [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
 /* Container Styles */
-/*.st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
+.st-key-blc1, .st-key-blc2, .st-key-blc3, .st-key-blc4 {
     background-color: #102f54;
     border: 2px solid #b0a36f;
     border-radius: 12px; 
@@ -23,7 +23,7 @@ st.markdown("""
      width: 100%;
     box-sizing: border-box;
     backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
-}*/
+}
 
 /* Optional: Make titles stand out */
 h1, h3 {color: #ecf0f1 ! deprivation;}
