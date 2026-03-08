@@ -19,13 +19,7 @@ st.markdown("""
 .h5 {font-size: 16px !important; color: #ff00ff !important; font-weight: normal !important; margin-bottom: 5px !important;}
 .h6 {font-size: 14px !important; color: #aaaaaa !important; font-weight: normal !important; margin-bottom: 3px !important;}
 
-#.section-title {
-#    font-size: 20px;
-#    font-weight: 600;
-#    margin-bottom: 10px;
-#    color: 
-#}
-
+#.section-title {font-size: 20px;font-weight: 600; margin-bottom: 10px; color:}
 
 
 .placeholder {
@@ -56,13 +50,9 @@ col1, col2, col3 = st.columns([1,1.3,1])
 # =========================================================
 with col1:
     st.markdown("""
-    <div style="background-color:#003057; padding:20px; border-radius:12px; color:white;">
-        Card 1 content
-    </div>
-    """, unsafe_allow_html=True)
-
-    energy_load = st.slider("Energy Load (MW)", min_value=50, max_value=500, value=120, step=10)
-
+    st.markdown('<div class="card" style="background-color:#003057; padding:20px; border-radius:12px; color:white;">', unsafe_allow_html=True)
+    energy_load = st.slider("", min_value=50, max_value=500, value=120, step=10)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     
     st.markdown("### Scenario Inputs")
