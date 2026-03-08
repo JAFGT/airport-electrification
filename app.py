@@ -21,6 +21,7 @@ st.markdown("""
     padding: 20px; 
     margin-bottom: 20px;
     backdrop-filter: blur(5px); /* Adds a nice frosted glass effect */
+    width: 100%;
 }
 
 /* Optional: Make titles stand out */
