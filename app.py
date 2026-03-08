@@ -40,14 +40,14 @@ col1, col2, col3 = st.columns(3)
 with col1:
     with st.container(key="blc1"):
         st.write("### Gate A")
-        st.slider("Capacity A", 0, 100, 50, key="s1")
+        st.slider("Capacity A", 0, 100, 50)
 
 with col2:
     with st.container(key="blc2"):
         st.write("### Gate B")
-        st.slider("Capacity B", 0, 100, 30, key="s2")
+        st.slider("Capacity B", 0, 100, 30)
 
 with col3:
     with st.container(key="blc3"):
         st.write("### Gate C")
-        st.slider("Capacity C", 0, 100, 75, key="s3")
+        st.slider("Capacity C", 0, 100, 75)
