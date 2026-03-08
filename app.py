@@ -77,6 +77,7 @@ def create_sector_button(sector):
             st.session_state[key] = not st.session_state[key]
             st.rerun()
 
+# CREATE YEAR BUTTON
 def create_year_button(year):
     clean_name = year.replace(' ', '_')
     key = f"{clean_name}"
@@ -98,12 +99,12 @@ def create_year_button(year):
 
 # UI Layout
 st.title("Airport Electrification Dashboard")
-
 col1, col2, col3 = st.columns(3, gap="large")
 
+# SCENARIO INPUTS
 with col1:
-    st.markdown('<p style="font-size: 24px; color: #b0a36f; font-weight: bold;">Scenario Inputs</p>', unsafe_allow_html=True)
-    st.write("#### Energy Sectors")
+    st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Scenario Inputs</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold;">Energy Load Sectors</p>', unsafe_allow_html=True)
     left, right = st.columns(2)
     with left:
         create_sector_button("Airport Terminal")
@@ -111,7 +112,8 @@ with col1:
     with right:
         create_sector_button("GSE")
         create_sector_button("Other Facilities")
-   
+
+    st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;">Scenario Inputs</p>', unsafe_allow_html=True)
     cy1, cy2, cy3, cy4, cy5 = st.columns(5)
     with cy1:
         create_year_button("2030")
