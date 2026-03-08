@@ -109,6 +109,7 @@ def create_year_button(year):
 st.markdown('<p style="font-size: 48px; color: #ffffff; font-weight: bold; text-align: left; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3, gap="large")
 
+# SCENARIO INPUTS
 with col1:
     st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Scenario Inputs</p>', unsafe_allow_html=True)
     st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold;">Energy Load Sectors</p>', unsafe_allow_html=True)
@@ -129,33 +130,18 @@ with col1:
     ct1, ct2 = st.columns(2)
     with ct1: create_general_button("Hybrid-Electric")
     with ct2: create_general_button("H2-SAF Combustion")   
-
+        
     st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
     st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
 
-
-
+# CAPACITY ANALYTICS
 with col2:
-    st.markdown("### Gate B")
-    st.slider("Capacity B", 0, 100, 30, key="sld_b")
+    st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Capacity Analytics</p>', unsafe_allow_html=True)
 
+# SYSTEM PERFORMANCE
 with col3:
-    st.markdown("### Gate C")
-    st.slider("Capacity C", 0, 100, 75, key="sld_c")
+    st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">System Performance</p>', unsafe_allow_html=True)
 
-# 7. SUMMARY DISPLAY
+
+# BOTTOM
 st.markdown("---")
-st.subheader("📊 Monitoring Summary")
-
-checked_list = [s for s in sectors if st.session_state[f"{s.replace(' ', '_')}"]]
-
-if checked_list:
-    display_args = ["Gate A Status: "]
-    for item in checked_list:
-        display_args.append((item, "ACTIVE", "#b0a36f"))
-        display_args.append("  ")
-    annotated_text(*display_args)
-else:
-    st.write("*No sectors active in Gate A*")
-
-st.markdown("<br>", unsafe_allow_html=True)
