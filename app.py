@@ -74,33 +74,9 @@ with col2:
         st.write("### Gate B")
         st.slider("Capacity B", 0, 100, 30)
 
-        for sector in sectors:
-            state_key = f"blc2_{sector}_checked"
-            if state_key not in st.session_state:
-                st.session_state[state_key] = False
-            widget_key = f"blc2_{sector}_btn"
-            label = f"✅ {sector}" if st.session_state[state_key] else sector
-            if st.button(label, key=widget_key):
-                st.session_state[state_key] = not st.session_state[state_key]
 
 # ---------- Container 3 ----------
 with col3:
     with st.container(key="blc3"):
         st.write("### Gate C")
         st.slider("Capacity C", 0, 100, 75)
-
-        for sector in sectors:
-            state_key = f"blc3_{sector}_checked"
-            if state_key not in st.session_state:
-                st.session_state[state_key] = False
-            widget_key = f"blc3_{sector}_btn"
-            label = f"✅ {sector}" if st.session_state[state_key] else sector
-            if st.button(label, key=widget_key):
-                st.session_state[state_key] = not st.session_state[state_key]
-
-# ---------- Display checked sectors per container ----------
-st.markdown("---")
-st.write("**Checked Sectors per Container:**")
-for i, col_name in enumerate(["blc1","blc2","blc3"], start=1):
-    checked = [s for s in sectors if st.session_state[f"{col_name}_{s}_checked"]]
-    st.write(f"Container {i}: {checked}")
