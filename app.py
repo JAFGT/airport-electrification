@@ -6,7 +6,7 @@ st.markdown("""
  .st-key-blc {background-color: rgba(100, 100, 200, 0.3);
  border: 2px solid #3498db; 
  /* Blue border */ border-radius: 8px; 
- /* Rounded corners */ padding: 20px; 
+ /* Rounded corners */ padding: 30px; 
  /* Space inside the container */ margin-bottom: 20px; }
     }
 </style>
