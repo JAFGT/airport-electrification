@@ -89,7 +89,7 @@ with col1:
     st.slider("Capacity A", 0, 100, 50, key="sld_a")
     st.write("#### Energy Sectors")
     for sector in sectors:
-        create_sector_button("sec1", sector)
+        create_sector_button(sector)
 
 with col2:
     st.markdown("### Gate B")
@@ -105,7 +105,7 @@ with col3:
 st.markdown("---")
 st.subheader("📊 Monitoring Summary")
 
-checked_list = [s for s in sectors if st.session_state[f"sec1_{s.replace(' ', '_')}"]]
+checked_list = [s for s in sectors if st.session_state[f"{s.replace(' ', '_')}"]]
 
 if checked_list:
     display_args = ["Gate A Status: "]
