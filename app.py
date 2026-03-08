@@ -46,7 +46,7 @@ with col1:
 
 with col2:
     with st.container(key="blc2"):
-        st.write("### Gate B")
+        st.write("### That's Crazy LOL")
         st.slider("Capacity B", 0, 100, 30)
 
 with col3:
