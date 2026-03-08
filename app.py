@@ -17,7 +17,7 @@ st.markdown("---")
 col1, col2, col3 = st.columns([1, 1, 1])
 
 with col1:
-    st.container(  # optional container for organization
+    st.container()  # optional container for organization
     st.markdown(
         """
         <div style="
@@ -33,7 +33,7 @@ with col1:
     )
     st.slider("Slider 1", 0, 100, 50)
     st.metric("Metric 1 Value", "123", "+5%")
-    )
+    
 
 with col2:
     st.container()
