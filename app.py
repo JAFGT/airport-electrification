@@ -82,7 +82,7 @@ with col1:
     st.markdown("### Gate A")
     st.slider("Capacity A", 0, 100, 50, key="sld_a")
     st.write("#### Energy Sectors")
-   left, right = st.columns(2)
+    left, right = st.columns(2)
     with left:
         create_sector_button("sec1", "Airport Terminal")
         create_sector_button("sec1", "Manufacturing Plant")
