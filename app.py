@@ -98,7 +98,7 @@ def create_year_button(year):
             st.rerun()
 
 # UI Layout
-st.title("Airport Electrification Dashboard")
+st.markdown('<p style="font-size: 48px; color: #ffffff; font-weight: bold; text-align: left; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3, gap="large")
 
 # SCENARIO INPUTS
