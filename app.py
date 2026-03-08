@@ -11,6 +11,11 @@ st.markdown("""
 .block-container {padding-top: 1rem;color: #ebaa01;}
 .card {background-color: #003057; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;}
 
+[data-testid="stAppViewContainer"] .block-container {
+    padding-top: 4rem;  /* increase this to move everything down */
+}
+
+
 .section-title {
     font-size: 20px;
     font-weight: 600;
