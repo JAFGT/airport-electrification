@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_extras.stateful_button import button
 
 st.set_page_config(layout="wide")
 
@@ -84,9 +85,26 @@ with col3:
         for sector in sectors:
             create_button("sec3", sector)
 
+columns = st.columns(10)
+
+icons = ["🍎", "🍌", "🍇", "🍓", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝"]
+
+selected_icons = []
+
+for index, column in enumerate(columns):
+    with column:
+        if button(icons[index], key=f"button_{index}"):
+            selected_icons.append(icons[index])
+
+st.write("Selected icons:", selected_icons)
+
+
 # ---------- Display checked sectors ----------
 st.markdown("---")
 st.write("**Checked Sectors:**")
 for gate in ["sec1","sec2","sec3"]:
     checked = [s for s in sectors if st.session_state[f"{gate}_{s.replace(' ','_')}"]]
     st.write(f"{gate}: {checked}")
+
+
+
