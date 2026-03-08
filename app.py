@@ -72,15 +72,20 @@ def create_sector_button(gate_id, sector):
     key = f"{gate_id}_{clean_name}"
     is_active = st.session_state[key]
     
-    # Notice the double {{ and }} below to escape the CSS braces
+    # Python requires double {{ }} to render a literal { } in an f-string
+    bg_color = 'rgba(176, 163, 111, 0.4) !important' if is_active else 'rgba(10, 32, 60, 0.7)'
+    border_style = '2px solid #ffffff !important' if is_active else '1px solid #b0a36f'
+    text_color = '#ffffff !important' if is_active else '#b0a36f'
+    glow = 'inset 0 0 15px rgba(176, 163, 111, 0.3)' if is_active else 'none'
+
     with stylable_container(
         key=f"container_{key}",
         css_styles=f"""
             button {{
-                background-color: { 'rgba(176, 163, 111, 0.4) !important' if is_active else 'rgba(10, 32, 60, 0.7)' }};
-                border: { '2px solid #ffffff !important' if is_active else '1px solid #b0a36f' }};
-                color: { '#ffffff !important' if is_active else '#b0a36f' }};
-                box-shadow: { 'inset 0 0 15px rgba(176, 163, 111, 0.3)' if is_active else 'none' };
+                background-color: {bg_color};
+                border: {border_style};
+                color: {text_color};
+                box-shadow: {glow};
             }}
         """
     ):
@@ -126,4 +131,3 @@ else:
     st.write("*No sectors active in Gate A*")
 
 st.markdown("<br>", unsafe_allow_html=True)
-coffee_button(username="yourname", floating=False, text="Support Dashboard")
