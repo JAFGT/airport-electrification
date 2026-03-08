@@ -103,5 +103,3 @@ with bottom2:
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown('<h2 class="h2">Procurement & Final Layout</h2>', unsafe_allow_html=True)
     st.markdown('<div class="placeholder" style="height:200px"></div>', unsafe_allow_html=True)
-    st.markdown("""
-    st.markdown('</div>', unsafe_allow_html=True)
