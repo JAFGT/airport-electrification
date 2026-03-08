@@ -5,22 +5,15 @@ from streamlit_extras.annotated_text import annotated_text
 # PAGE CONFIG
 st.set_page_config(page_title="Airport Electrification Dashboard",page_icon="✈️", layout="wide")
 
-# CSS FOR STULING
+# CSS FOR STYLING
 st.markdown("""
 <style>
     [data-testid="stAppViewContainer"] {background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%); color: #ffffff;}
     [data-testid="stHeader"] {background: rgba(0,0,0,0);}
 
-    /* Gate Container Styling 
+    /* CONTAINER STYLING */
     div[data-testid="stVerticalBlock"] > div:has(div.stButton), 
-    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(176, 163, 111, 0.3);
-        border-radius: 15px;
-        padding: 20px;
-        backdrop-filter: blur(10px);
-        margin-bottom: 10px;
-    }*/
+    div[data-testid="stVerticalBlock"] > div:has(div.stSlider) {background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(176, 163, 111, 0.3); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 10px;}
 
     .stButton > button {
         background-color: rgba(10, 32, 60, 0.7);
