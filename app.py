@@ -32,7 +32,7 @@ st.markdown("""
         margin-bottom: 10px;
     }
 
-    /* Base Button Style (Applied to all) */
+    /* Base Button Style */
     .stButton > button {
         background-color: rgba(10, 32, 60, 0.7);
         color: #b0a36f;
@@ -66,21 +66,21 @@ for sector in sectors:
     if key not in st.session_state:
         st.session_state[key] = False
 
-# 5. HELPER FUNCTION (Dynamic Styling & Corrected F-String Syntax)
+# 5. HELPER FUNCTION (Corrected F-String Syntax)
 def create_sector_button(gate_id, sector):
     clean_name = sector.replace(' ', '_')
     key = f"{gate_id}_{clean_name}"
     is_active = st.session_state[key]
     
-    # Note the double {{ and }} to escape CSS braces in a Python f-string
+    # Notice the double {{ and }} below to escape the CSS braces
     with stylable_container(
         key=f"container_{key}",
         css_styles=f"""
             button {{
-                background-color: { 'rgba(176, 163, 111, 0.3) !important' if is_active else 'rgba(10, 32, 60, 0.7)' }};
+                background-color: { 'rgba(176, 163, 111, 0.4) !important' if is_active else 'rgba(10, 32, 60, 0.7)' }};
                 border: { '2px solid #ffffff !important' if is_active else '1px solid #b0a36f' }};
                 color: { '#ffffff !important' if is_active else '#b0a36f' }};
-                box-shadow: { 'inset 0 0 10px rgba(176, 163, 111, 0.5)' if is_active else 'none' };
+                box-shadow: { 'inset 0 0 15px rgba(176, 163, 111, 0.3)' if is_active else 'none' };
             }}
         """
     ):
@@ -103,12 +103,12 @@ with col1:
 with col2:
     st.markdown("### Gate B")
     st.slider("Capacity B", 0, 100, 30, key="sld_b")
-    st.info("Sectors managed via Primary Terminal (Gate A)")
+    st.info("Managed via Gate A")
 
 with col3:
     st.markdown("### Gate C")
     st.slider("Capacity C", 0, 100, 75, key="sld_c")
-    st.info("Sectors managed via Primary Terminal (Gate A)")
+    st.info("Managed via Gate A")
 
 # 7. SUMMARY DISPLAY
 st.markdown("---")
@@ -117,7 +117,6 @@ st.subheader("📊 Monitoring Summary")
 checked_list = [s for s in sectors if st.session_state[f"sec1_{s.replace(' ', '_')}"]]
 
 if checked_list:
-    # Use annotated_text for a professional badge look
     display_args = ["Gate A Status: "]
     for item in checked_list:
         display_args.append((item, "ACTIVE", "#b0a36f"))
