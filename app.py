@@ -41,12 +41,12 @@ def styled_header(text, level):
     st.markdown(f'<p class="{level}">{text}</p>', unsafe_allow_html=True)
 
 styled_header("Airport Electrification Dashboard", "h1")
-styled_header("Scenario Inputs", "h2")
-styled_header("Capacity Analytics", "h3")
+#styled_header("Scenario Inputs", "h2")
+#styled_header("Capacity Analytics", "h3")
 
 # ---------- HEADER ----------
-st.title("Airport Electrification Dashboard")
-st.markdown("---")
+#st.title("Airport Electrification Dashboard")
+#st.markdown("---")
 
 # ---------- MAIN GRID ----------
 col1, col2, col3 = st.columns([1,1.3,1])
