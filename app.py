@@ -31,6 +31,8 @@ h1, h3 {
 
 .stSlider [data-baseweb="slider"] > div > div > div > div {
     background-color: #b0a36f !important;
+.stSlider [data-baseweb="slider"] > div > div > div > div > div {
+    background-color: #b0a36f !important;
 }
 
 </style>
