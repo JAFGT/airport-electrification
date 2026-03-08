@@ -86,18 +86,6 @@ with col3:
         for sector in sectors:
             create_button("sec3", sector)
 
-columns = st.columns(10)
-
-icons = ["🍎", "🍌", "🍇", "🍓", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝"]
-
-selected_icons = []
-
-for index, column in enumerate(columns):
-    with column:
-        if button(icons[index], key=f"button_{index}"):
-            selected_icons.append(icons[index])
-
-st.write("Selected icons:", selected_icons)
 
 
 # ---------- Display checked sectors ----------
