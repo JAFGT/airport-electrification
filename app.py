@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_extras.buy_me_a_coffee import button as coffee_button
-#from streamlit_extras.annotated_text import annotated_text
+from streamlit_extras.annotated_text import annotated_text
 from streamlit_extras.stylable_container import stylable_container
 
 # PAGE CONFIG
