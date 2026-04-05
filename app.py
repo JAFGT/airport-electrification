@@ -99,7 +99,7 @@ years = ["2030", "2040", "2050", "2060", "2070"]
 # PAGE SELECTOR
 page = st.sidebar.selectbox(
     "**Select Page**",
-    ["Decision Dashboard", "Capacity Analytics", "System Performance"],
+    ["Input Metrics", "Decision Dashboard", "Graphical Performance"],
 )
 
 # -----------------------------------------------------------
