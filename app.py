@@ -203,8 +203,6 @@ page = st.sidebar.selectbox(
 # INPUT METRICS
 # -----------------------------------------------------------
 if page == "Input Metrics":
-    st.markdown("<h1>✈️ Input Metrics Page</h1>", unsafe_allow_html=True)
-
 
     # DATA SETUP
     sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
