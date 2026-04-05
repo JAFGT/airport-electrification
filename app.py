@@ -32,8 +32,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 1. INITIALIZE SESSION STATE
-# We use this to track exactly WHICH card is actively clicked and being explored
+# INITIALIZE SESSION STATE (CARDS)
 if "explored_card" not in st.session_state:
     st.session_state.explored_card = None
 
@@ -47,7 +46,6 @@ page = st.sidebar.selectbox(
 )
 
 if page == "Decision Dashboard":
-
     st.markdown("""
         <p style="font-size: 48px; color: #ffffff; font-weight: bold; margin-bottom: 20px;">
         ✈️ Airport Electrification Dashboard ⚡️
@@ -55,52 +53,51 @@ if page == "Decision Dashboard":
     """, unsafe_allow_html=True)
 
     
-    card_col1, card_col2, card_col3 = st.columns(3, gap="medium")
+    scenario_a, scenario_b, scenario_c = st.columns(3, gap="medium")
 
-    # --- CARD 1: SCENARIO INPUTS ---
-    with card_col1:
-        # We change the border color and background based on whether it's active
-        is_active = (st.session_state.explored_card == "Scenario Inputs")
+    # SCENARIO A 
+    with scenario_a:
+        is_active = (st.session_state.explored_card == "Scenario A")
         bg_color = "rgba(176, 163, 111, 0.2)" if is_active else "rgba(255, 255, 255, 0.05)"
         border_style = "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
         shadow = "0 0 15px rgba(176, 163, 111, 0.4)" if is_active else "none"
 
         with stylable_container(
-            key="card_scenario",
+            key="scenario_a",
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}"
         ):
-            if st.button("⚙️\n\n**Scenario Inputs**\n\nModify general project loads & boundaries", key="btn_card_1"):
-                st.session_state.explored_card = "Scenario Inputs"
+            if st.button("**SCENARIO A**", key="scenario_a"):
+                st.session_state.explored_card = "Scenario A"
                 st.rerun()
 
-    # --- CARD 2: CAPACITY ANALYTICS ---
-    with card_col2:
-        is_active = (st.session_state.explored_card == "Capacity Analytics")
+    # SCENARIO B
+    with scenario_b:
+        is_active = (st.session_state.explored_card == "Scenario B")
         bg_color = "rgba(176, 163, 111, 0.2)" if is_active else "rgba(255, 255, 255, 0.05)"
         border_style = "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
         shadow = "0 0 15px rgba(176, 163, 111, 0.4)" if is_active else "none"
 
         with stylable_container(
-            key="card_capacity",
+            key="scenario_b",
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}"
         ):
-            if st.button("📊\n\n**Capacity Analytics**\n\nReview power demands & generation setups", key="btn_card_2"):
-                st.session_state.explored_card = "Capacity Analytics"
+            if st.button("📊\n\n**Capacity Analytics**\n\nReview power demands & generation setups", key="scenario_b"):
+                st.session_state.explored_card = "Scenario B"
                 st.rerun()
 
-    # --- CARD 3: SYSTEM PERFORMANCE ---
-    with card_col3:
-        is_active = (st.session_state.explored_card == "System Performance")
+    # SCENARIO C
+    with scenario_c:
+        is_active = (st.session_state.explored_card == "Scenario C")
         bg_color = "rgba(176, 163, 111, 0.2)" if is_active else "rgba(255, 255, 255, 0.05)"
         border_style = "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
         shadow = "0 0 15px rgba(176, 163, 111, 0.4)" if is_active else "none"
 
         with stylable_container(
-            key="card_system",
+            key="scenario_c",
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}"
         ):
-            if st.button("📈\n\n**System Performance**\n\nEvaluate grid resilience & metrics", key="btn_card_3"):
-                st.session_state.explored_card = "System Performance"
+            if st.button("📈\n\n**System Performance**\n\nEvaluate grid resilience & metrics", key="scenario_c"):
+                st.session_state.explored_card = "Scenario C"
                 st.rerun()
 
     st.markdown("---")
@@ -111,10 +108,9 @@ if page == "Decision Dashboard":
     if st.session_state.explored_card is None:
         st.info("Click on any of the three cards above to explore and modify its metrics.")
         
-    elif st.session_state.explored_card == "Scenario Inputs":
-        st.subheader("🛠️ Modifying: Scenario Inputs")
+    elif st.session_state.explored_card == "Scenario A":
+        st.subheader("🛠️ Modifying: Scenario A")
         
-        # Here we place your original column 1 inputs!
         col_left, col_right = st.columns(2)
         with col_left:
             st.write("**Energy Load Sectors**")
@@ -129,15 +125,15 @@ if page == "Decision Dashboard":
             st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
             st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
             
-    elif st.session_state.explored_card == "Capacity Analytics":
-        st.subheader("📊 Modifying: Capacity Analytics")
-        # Put the inputs/metrics specific to Capacity Analytics here
+    elif st.session_state.explored_card == "Scenario B":
+        st.subheader("🛠️ Modifying: Scenario B")
+        # Put the inputs/metrics specific to Scenario B here
         st.number_input("Target Peak Capacity (MW)", value=50.0)
         st.number_input("Storage Capacity (MWh)", value=100.0)
         st.success("You can place graphs or data frames here.")
 
-    elif st.session_state.explored_card == "System Performance":
-        st.subheader("📈 Modifying: System Performance")
-        # Put the inputs/metrics specific to System Performance here
+    elif st.session_state.explored_card == "Scenario C":
+        st.subheader("🛠️ Modifying: Scenario C")
+        # Put the inputs/metrics specific to Scenario C here
         st.slider("Reliability Target (%)", 90.0, 100.0, 99.5)
         st.metric(label="Calculated Autonomy Fraction", value="85%", delta="5%")
