@@ -89,55 +89,73 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# 1. INITIALIZE SESSION STATE (For Navigation & Data Persistence)
-if "explored_card" not in st.session_state:
-    st.session_state.explored_card = None
-
+# MASTER VARIABLES
 years = ["2030", "2040", "2050", "2060", "2070"]
 scenarios = ["Scenario A", "Scenario B", "Scenario C"]
 
-# This is the secret sauce: Pre-populating the storage so data NEVER wipes on switch!
+if "explored_card" not in st.session_state:
+    st.session_state.explored_card = None
+
+# DISCRETE VALUES FOR CARDS
 for sc in scenarios:
     for yr in years:
-        comm_key = f"{sc}_comm_pct_{yr}"
-        biz_key = f"{sc}_biz_pct_{yr}"
+        comm_val_key = f"val_{sc}_comm_{yr}"
+        biz_val_key = f"val_{sc}_biz_{yr}"
         
-        if comm_key not in st.session_state:
-            st.session_state[comm_key] = 50 # default starting value
-        if biz_key not in st.session_state:
-            st.session_state[biz_key] = 90 # default starting value
+        # Initial Values
+        if comm_val_key not in st.session_state:
+            st.session_state[comm_val_key] = 50
+        if biz_val_key not in st.session_state:
+            st.session_state[biz_val_key] = 90
 
 
-# 2. DEFINE REUSABLE TIMELINE FUNCTION
+# SAVED VALUES
+def save_comm_value(scenario, year):
+    slider_key = f"slider_{scenario}_comm_{year}"
+    state_key = f"val_{scenario}_comm_{year}"
+    st.session_state[state_key] = st.session_state[slider_key]
+
+def save_biz_value(scenario, year):
+    slider_key = f"slider_{scenario}_biz_{year}"
+    state_key = f"val_{scenario}_biz_{year}"
+    st.session_state[state_key] = st.session_state[slider_key]
+
+
+# TIMELINE FUNCTION (UNIVERSAL FOR CARDS)
 def render_timeline(selected_year, scenario):
     st.markdown(f"### Projections for Year {selected_year}")
 
     col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
 
-    comm_key = f"{scenario}_comm_pct_{selected_year}"
-    biz_key = f"{scenario}_biz_pct_{selected_year}"
+    # Calls memory for specific card.
+    comm_val_key = f"val_{scenario}_comm_{selected_year}"
+    biz_val_key = f"val_{scenario}_biz_{selected_year}"
+    
+    current_comm_val = st.session_state[comm_val_key]
+    current_biz_val = st.session_state[biz_val_key]
 
     with col_sliders:
-        # We read from session state and use a callback to save changes on interaction
         commercial_pct = st.slider(
             f"Commercial Hybrid-Electric Mix (%)",
             0, 100, 
-            value=st.session_state[comm_key],
+            value=current_comm_val,
             step=5,
-            key=comm_key + "_slider",
+            key=f"slider_{scenario}_comm_{selected_year}",
+            on_change=save_comm_value,
+            args=(scenario, selected_year)
         )
-        # Update the master state directly
-        st.session_state[comm_key] = commercial_pct
 
         business_saf_pct = st.slider(
             f"Business 100% SAF Mix (%)",
             0, 100, 
-            value=st.session_state[biz_key],
+            value=current_biz_val,
             step=5,
-            key=biz_key + "_slider",
+            key=f"slider_{scenario}_biz_{selected_year}",
+            on_change=save_biz_value,
+            args=(scenario, selected_year)
         )
-        st.session_state[biz_key] = business_saf_pct
 
+    # Apply inverse.
     comm_remaining = 100 - commercial_pct
     biz_remaining = 100 - business_saf_pct
 
