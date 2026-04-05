@@ -217,8 +217,7 @@ if page == "Decision Dashboard":
         biz_remaining = 100 - business_saf_pct
 
         # 3. RENDER THE CUSTOM HTML TIMELINE
-        st.markdown(
-            f"""
+        st.html(f"""
         <div class="timeline-container">
             <div class="timeline-labels">
                 <span>2030</span>
@@ -247,9 +246,7 @@ if page == "Decision Dashboard":
                 </div>
             </div>
         </div>
-        """,
-            unsafe_allow_html=True,
-        )
+        """)
 
         # 4. LEGEND AT THE BOTTOM
         st.markdown(
