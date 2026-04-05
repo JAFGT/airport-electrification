@@ -6,7 +6,7 @@ st.set_page_config(
     page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide"
 )
 
-# 2CSS THEME & CUSTOM CARD STYLING
+# CSS THEME & CUSTOM CARD STYLING
 st.markdown(
     """
 <style>
@@ -89,32 +89,54 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# INITIALIZE SESSION STATE (For Cards)
+# 1. INITIALIZE SESSION STATE (For Navigation & Data Persistence)
 if "explored_card" not in st.session_state:
     st.session_state.explored_card = None
 
-# COMMON DATA
 years = ["2030", "2040", "2050", "2060", "2070"]
+scenarios = ["Scenario A", "Scenario B", "Scenario C"]
+
+# This is the secret sauce: Pre-populating the storage so data NEVER wipes on switch!
+for sc in scenarios:
+    for yr in years:
+        comm_key = f"{sc}_comm_pct_{yr}"
+        biz_key = f"{sc}_biz_pct_{yr}"
+        
+        if comm_key not in st.session_state:
+            st.session_state[comm_key] = 50 # default starting value
+        if biz_key not in st.session_state:
+            st.session_state[biz_key] = 90 # default starting value
 
 
-# --- DEFINE REUSABLE TIMELINE FUNCTION ONCE ---
-# By adding 'scenario' to the key, each card handles completely separate data!
+# 2. DEFINE REUSABLE TIMELINE FUNCTION
 def render_timeline(selected_year, scenario):
     st.markdown(f"### Projections for Year {selected_year}")
 
     col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
 
+    comm_key = f"{scenario}_comm_pct_{selected_year}"
+    biz_key = f"{scenario}_biz_pct_{selected_year}"
+
     with col_sliders:
+        # We read from session state and use a callback to save changes on interaction
         commercial_pct = st.slider(
             f"Commercial Hybrid-Electric Mix (%)",
-            0, 100, 50, step=5,
-            key=f"{scenario}_comm_pct_{selected_year}",
+            0, 100, 
+            value=st.session_state[comm_key],
+            step=5,
+            key=comm_key + "_slider",
         )
+        # Update the master state directly
+        st.session_state[comm_key] = commercial_pct
+
         business_saf_pct = st.slider(
             f"Business 100% SAF Mix (%)",
-            0, 100, 90, step=5,
-            key=f"{scenario}_biz_pct_{selected_year}",
+            0, 100, 
+            value=st.session_state[biz_key],
+            step=5,
+            key=biz_key + "_slider",
         )
+        st.session_state[biz_key] = business_saf_pct
 
     comm_remaining = 100 - commercial_pct
     biz_remaining = 100 - business_saf_pct
@@ -166,14 +188,7 @@ page = st.sidebar.selectbox(
 # INPUT METRICS
 # -----------------------------------------------------------
 if page == "Input Metrics":
-    st.markdown(
-        """
-        <p style="font-size: 48px; color: #ffffff; font-weight: bold; margin-bottom: 20px;">
-        ✈️ Airport Electrification Dashboard ⚡️
-        </p>
-    """,
-        unsafe_allow_html=True,
-    )
+    st.markdown("<h1>✈️ Input Metrics Page</h1>", unsafe_allow_html=True)
 
 # -----------------------------------------------------------
 # DECISION DASHBOARD
@@ -193,14 +208,8 @@ elif page == "Decision Dashboard":
     # --- SCENARIO A CARD ---
     with scenario_a:
         is_active = st.session_state.explored_card == "Scenario A"
-        bg_color = (
-            "rgba(176, 163, 111, 0.2)"
-            if is_active
-            else "rgba(255, 255, 255, 0.05)"
-        )
-        border_style = (
-            "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
-        )
+        bg_color = "rgba(176, 163, 111, 0.2)" if is_active else "rgba(255, 255, 255, 0.05)"
+        border_style = "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
         shadow = "0 0 15px rgba(176, 163, 111, 0.4)" if is_active else "none"
 
         with stylable_container(
@@ -214,14 +223,8 @@ elif page == "Decision Dashboard":
     # --- SCENARIO B CARD ---
     with scenario_b:
         is_active = st.session_state.explored_card == "Scenario B"
-        bg_color = (
-            "rgba(176, 163, 111, 0.2)"
-            if is_active
-            else "rgba(255, 255, 255, 0.05)"
-        )
-        border_style = (
-            "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
-        )
+        bg_color = "rgba(176, 163, 111, 0.2)" if is_active else "rgba(255, 255, 255, 0.05)"
+        border_style = "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
         shadow = "0 0 15px rgba(176, 163, 111, 0.4)" if is_active else "none"
 
         with stylable_container(
@@ -235,14 +238,8 @@ elif page == "Decision Dashboard":
     # --- SCENARIO C CARD ---
     with scenario_c:
         is_active = st.session_state.explored_card == "Scenario C"
-        bg_color = (
-            "rgba(176, 163, 111, 0.2)"
-            if is_active
-            else "rgba(255, 255, 255, 0.05)"
-        )
-        border_style = (
-            "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
-        )
+        bg_color = "rgba(176, 163, 111, 0.2)" if is_active else "rgba(255, 255, 255, 0.05)"
+        border_style = "2px solid #b0a36f" if is_active else "1px solid rgba(255, 255, 255, 0.2)"
         shadow = "0 0 15px rgba(176, 163, 111, 0.4)" if is_active else "none"
 
         with stylable_container(
@@ -259,11 +256,9 @@ elif page == "Decision Dashboard":
     # SCENARIO MODIFIERS
     # -----------------------------------------------------------
     if st.session_state.explored_card is None:
-        st.info(
-            "Click on any of the three cards above to explore and modify its metrics."
-        )
+        st.info("Click on any of the three cards above to explore and modify its metrics.")
 
-    elif st.session_state.explored_card in ["Scenario A", "Scenario B", "Scenario C"]:
+    elif st.session_state.explored_card in scenarios:
         current_scenario = st.session_state.explored_card
         st.subheader(f"🛠️ Modifying: {current_scenario}")
 
@@ -294,10 +289,7 @@ elif page == "Decision Dashboard":
 
         with col_right:
             st.selectbox("Select Target Year", years, key=f"{current_scenario}_target_yr")
-            st.radio(
-                "Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"],
-                key=f"{current_scenario}_fleet_type"
-            )
+            st.radio("Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"], key=f"{current_scenario}_fleet_type")
             st.slider("**Land (Acres)**", 0, 100, 75, key=f"{current_scenario}_sld_land")
             st.slider("**Grid Cap (MW)**", 0, 100, 75, key=f"{current_scenario}_sld_gc")
 
@@ -307,6 +299,4 @@ elif page == "Decision Dashboard":
 # -----------------------------------------------------------
 elif page == "Graphical Performance":
     st.title("📊 Graphical Performance")
-    st.write(
-        "Craft graphs (in NUMPY) from ReOPT metrics."
-    )
+    st.write("Craft graphs (in NUMPY) from ReOPT metrics.")
