@@ -147,7 +147,7 @@ elif page == "Decision Dashboard":
             key="scenario_a",
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
         ):
-            if st.button("**SCENARIO A**", key="scenario_a_btn"):
+            if st.button("**Scenario A**", key="scenario_a_btn"):
                 st.session_state.explored_card = "Scenario A"
                 st.rerun()
 
@@ -169,7 +169,7 @@ elif page == "Decision Dashboard":
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
         ):
             if st.button(
-                "📊\n\n**Capacity Analytics**\n\nReview power demands & generation setups",
+                "**Scenario B**",
                 key="scenario_b_btn",
             ):
                 st.session_state.explored_card = "Scenario B"
@@ -193,7 +193,7 @@ elif page == "Decision Dashboard":
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
         ):
             if st.button(
-                "📈\n\n**System Performance**\n\nEvaluate grid resilience & metrics",
+                "**Scenario C**",
                 key="scenario_c_btn",
             ):
                 st.session_state.explored_card = "Scenario C"
