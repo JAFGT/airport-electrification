@@ -96,6 +96,66 @@ if "explored_card" not in st.session_state:
 # COMMON DATA
 years = ["2030", "2040", "2050", "2060", "2070"]
 
+
+# --- DEFINE REUSABLE TIMELINE FUNCTION ONCE ---
+# By adding 'scenario' to the key, each card handles completely separate data!
+def render_timeline(selected_year, scenario):
+    st.markdown(f"### Projections for Year {selected_year}")
+
+    col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
+
+    with col_sliders:
+        commercial_pct = st.slider(
+            f"Commercial Hybrid-Electric Mix (%)",
+            0, 100, 50, step=5,
+            key=f"{scenario}_comm_pct_{selected_year}",
+        )
+        business_saf_pct = st.slider(
+            f"Business 100% SAF Mix (%)",
+            0, 100, 90, step=5,
+            key=f"{scenario}_biz_pct_{selected_year}",
+        )
+
+    comm_remaining = 100 - commercial_pct
+    biz_remaining = 100 - business_saf_pct
+
+    with col_visual:
+        st.html(
+            f"""
+        <div class="timeline-container">
+            <div class="timeline-labels">
+                <span>2030</span>
+                <span>2040</span>
+                <span>2050</span>
+                <span>2060</span>
+            </div>
+            
+            <hr style="border-color: #69ff47; margin-bottom: 25px;">
+
+            <div class="row-container">
+                <div class="row-title">Commercial</div>
+                <div class="bar-container">
+                    <div class="segment seg-dark-blue" style="width: {commercial_pct}%;">{commercial_pct}%</div>
+                    <div class="block-splitter"></div>
+                    <div class="segment seg-light-blue" style="width: {comm_remaining}%;">{comm_remaining}%</div>
+                </div>
+            </div>
+
+            <div class="row-container">
+                <div class="row-title">Business</div>
+                <div class="bar-container">
+                    <div class="segment seg-light-green" style="width: {business_saf_pct}%;">{business_saf_pct}%</div>
+                    <div class="block-splitter"></div>
+                    <div class="segment seg-dark-green" style="width: {biz_remaining}%;">{biz_remaining}%</div>
+                </div>
+            </div>
+        </div>
+        """
+        )
+
+    st.markdown("---")
+
+
 # PAGE SELECTOR
 page = st.sidebar.selectbox(
     "**Select Page**",
@@ -168,10 +228,7 @@ elif page == "Decision Dashboard":
             key="scenario_b",
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
         ):
-            if st.button(
-                "**Scenario B**",
-                key="scenario_b_btn",
-            ):
+            if st.button("**Scenario B**", key="scenario_b_btn"):
                 st.session_state.explored_card = "Scenario B"
                 st.rerun()
 
@@ -192,91 +249,26 @@ elif page == "Decision Dashboard":
             key="scenario_c",
             css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
         ):
-            if st.button(
-                "**Scenario C**",
-                key="scenario_c_btn",
-            ):
+            if st.button("**Scenario C**", key="scenario_c_btn"):
                 st.session_state.explored_card = "Scenario C"
                 st.rerun()
 
     st.markdown("---")
 
-# -----------------------------------------------------------
-# SCENARIO MODIFIERS
-# -----------------------------------------------------------
+    # -----------------------------------------------------------
+    # SCENARIO MODIFIERS
+    # -----------------------------------------------------------
     if st.session_state.explored_card is None:
         st.info(
             "Click on any of the three cards above to explore and modify its metrics."
         )
 
-    # --- SCENARIO A ACTIVE ---
-    elif st.session_state.explored_card == "Scenario A":
-
-        # TIMELINE RENDERING FUNCTION
-        def render_timeline(selected_year):
-            st.markdown(f"###Projections for Year {selected_year}")
-
-            col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
-
-            with col_sliders:
-                commercial_pct = st.slider(
-                    f"Commercial Hybrid-Electric Mix (%)",
-                    0,
-                    100,
-                    50,
-                    step=5,
-                    key=f"comm_pct_{selected_year}",
-                )
-                business_saf_pct = st.slider(
-                    f"Business 100% SAF Mix (%)",
-                    0,
-                    100,
-                    90,
-                    step=5,
-                    key=f"biz_pct_{selected_year}",
-                )
-
-            comm_remaining = 100 - commercial_pct
-            biz_remaining = 100 - business_saf_pct
-
-            with col_visual:
-                st.html(
-                    f"""
-                <div class="timeline-container">
-                    <div class="timeline-labels">
-                        <span>2030</span>
-                        <span>2040</span>
-                        <span>2050</span>
-                        <span>2060</span>
-                    </div>
-                    
-                    <hr style="border-color: #69ff47; margin-bottom: 25px;">
-
-                    <div class="row-container">
-                        <div class="row-title">Commercial</div>
-                        <div class="bar-container">
-                            <div class="segment seg-dark-blue" style="width: {commercial_pct}%;">{commercial_pct}%</div>
-                            <div class="block-splitter"></div>
-                            <div class="segment seg-light-blue" style="width: {comm_remaining}%;">{comm_remaining}%</div>
-                        </div>
-                    </div>
-
-                    <div class="row-container">
-                        <div class="row-title">Business</div>
-                        <div class="bar-container">
-                            <div class="segment seg-light-green" style="width: {business_saf_pct}%;">{business_saf_pct}%</div>
-                            <div class="block-splitter"></div>
-                            <div class="segment seg-dark-green" style="width: {biz_remaining}%;">{biz_remaining}%</div>
-                        </div>
-                    </div>
-                </div>
-                """
-                )
-
-            st.markdown("---")
+    elif st.session_state.explored_card in ["Scenario A", "Scenario B", "Scenario C"]:
+        current_scenario = st.session_state.explored_card
+        st.subheader(f"🛠️ Modifying: {current_scenario}")
 
         for year in years:
-            render_timeline(year)
+            render_timeline(year, current_scenario)
 
         # Global Legend
         st.markdown(
@@ -295,215 +287,19 @@ elif page == "Decision Dashboard":
         col_left, col_right = st.columns(2)
         with col_left:
             st.write("**Energy Load Sectors**")
-            st.checkbox("Airport Terminal")
-            st.checkbox("Manufacturing Plant")
-            st.checkbox("GSE")
-            st.checkbox("Other Facilities")
+            st.checkbox("Airport Terminal", key=f"{current_scenario}_term")
+            st.checkbox("Manufacturing Plant", key=f"{current_scenario}_plant")
+            st.checkbox("GSE", key=f"{current_scenario}_gse")
+            st.checkbox("Other Facilities", key=f"{current_scenario}_other")
 
         with col_right:
-            st.selectbox("Select Target Year", years, key="shared_target_yr")
+            st.selectbox("Select Target Year", years, key=f"{current_scenario}_target_yr")
             st.radio(
-                "Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"]
+                "Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"],
+                key=f"{current_scenario}_fleet_type"
             )
-            st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
-            st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
-
-    # --- SCENARIO B ACTIVE ---
-    elif st.session_state.explored_card == "Scenario B":
-                # TIMELINE RENDERING FUNCTION
-        def render_timeline(selected_year):
-            st.markdown(f"###Projections for Year {selected_year}")
-
-            col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
-
-            with col_sliders:
-                commercial_pct = st.slider(
-                    f"Commercial Hybrid-Electric Mix (%)",
-                    0,
-                    100,
-                    50,
-                    step=5,
-                    key=f"comm_pct_{selected_year}",
-                )
-                business_saf_pct = st.slider(
-                    f"Business 100% SAF Mix (%)",
-                    0,
-                    100,
-                    90,
-                    step=5,
-                    key=f"biz_pct_{selected_year}",
-                )
-
-            comm_remaining = 100 - commercial_pct
-            biz_remaining = 100 - business_saf_pct
-
-            with col_visual:
-                st.html(
-                    f"""
-                <div class="timeline-container">
-                    <div class="timeline-labels">
-                        <span>2030</span>
-                        <span>2040</span>
-                        <span>2050</span>
-                        <span>2060</span>
-                    </div>
-                    
-                    <hr style="border-color: #69ff47; margin-bottom: 25px;">
-
-                    <div class="row-container">
-                        <div class="row-title">Commercial</div>
-                        <div class="bar-container">
-                            <div class="segment seg-dark-blue" style="width: {commercial_pct}%;">{commercial_pct}%</div>
-                            <div class="block-splitter"></div>
-                            <div class="segment seg-light-blue" style="width: {comm_remaining}%;">{comm_remaining}%</div>
-                        </div>
-                    </div>
-
-                    <div class="row-container">
-                        <div class="row-title">Business</div>
-                        <div class="bar-container">
-                            <div class="segment seg-light-green" style="width: {business_saf_pct}%;">{business_saf_pct}%</div>
-                            <div class="block-splitter"></div>
-                            <div class="segment seg-dark-green" style="width: {biz_remaining}%;">{biz_remaining}%</div>
-                        </div>
-                    </div>
-                </div>
-                """
-                )
-
-            st.markdown("---")
-
-        for year in years:
-            render_timeline(year)
-
-        # Global Legend
-        st.markdown(
-            """
-        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px; margin-bottom: 30px; font-weight: bold;">
-            <span><span style="color: #a2cce3;">■</span> JetA</span>
-            <span><span style="color: #1a5b7a;">■</span> Hybrid-electric</span>
-            <span><span style="color: #3b7a2e;">■</span> H2-SAF</span>
-            <span><span style="color: #e2f4c7;">■</span> 100% SAF</span>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-        # ADDITIONAL METRICS
-        col_left, col_right = st.columns(2)
-        with col_left:
-            st.write("**Energy Load Sectors**")
-            st.checkbox("Airport Terminal")
-            st.checkbox("Manufacturing Plant")
-            st.checkbox("GSE")
-            st.checkbox("Other Facilities")
-
-        with col_right:
-            st.selectbox("Select Target Year", years, key="shared_target_yr")
-            st.radio(
-                "Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"]
-            )
-            st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
-            st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
-
-    # --- SCENARIO C ACTIVE ---
-    elif st.session_state.explored_card == "Scenario C":
-        #st.subheader("🛠️ Modifying: Scenario C")
-                # TIMELINE RENDERING FUNCTION
-        def render_timeline(selected_year):
-            st.markdown(f"###Projections for Year {selected_year}")
-
-            col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
-
-            with col_sliders:
-                commercial_pct = st.slider(
-                    f"Commercial Hybrid-Electric Mix (%)",
-                    0,
-                    100,
-                    50,
-                    step=5,
-                    key=f"comm_pct_{selected_year}",
-                )
-                business_saf_pct = st.slider(
-                    f"Business 100% SAF Mix (%)",
-                    0,
-                    100,
-                    90,
-                    step=5,
-                    key=f"biz_pct_{selected_year}",
-                )
-
-            comm_remaining = 100 - commercial_pct
-            biz_remaining = 100 - business_saf_pct
-
-            with col_visual:
-                st.html(
-                    f"""
-                <div class="timeline-container">
-                    <div class="timeline-labels">
-                        <span>2030</span>
-                        <span>2040</span>
-                        <span>2050</span>
-                        <span>2060</span>
-                    </div>
-                    
-                    <hr style="border-color: #69ff47; margin-bottom: 25px;">
-
-                    <div class="row-container">
-                        <div class="row-title">Commercial</div>
-                        <div class="bar-container">
-                            <div class="segment seg-dark-blue" style="width: {commercial_pct}%;">{commercial_pct}%</div>
-                            <div class="block-splitter"></div>
-                            <div class="segment seg-light-blue" style="width: {comm_remaining}%;">{comm_remaining}%</div>
-                        </div>
-                    </div>
-
-                    <div class="row-container">
-                        <div class="row-title">Business</div>
-                        <div class="bar-container">
-                            <div class="segment seg-light-green" style="width: {business_saf_pct}%;">{business_saf_pct}%</div>
-                            <div class="block-splitter"></div>
-                            <div class="segment seg-dark-green" style="width: {biz_remaining}%;">{biz_remaining}%</div>
-                        </div>
-                    </div>
-                </div>
-                """
-                )
-
-            st.markdown("---")
-
-        for year in years:
-            render_timeline(year)
-
-        # Global Legend
-        st.markdown(
-            """
-        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px; margin-bottom: 30px; font-weight: bold;">
-            <span><span style="color: #a2cce3;">■</span> JetA</span>
-            <span><span style="color: #1a5b7a;">■</span> Hybrid-electric</span>
-            <span><span style="color: #3b7a2e;">■</span> H2-SAF</span>
-            <span><span style="color: #e2f4c7;">■</span> 100% SAF</span>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-        # ADDITIONAL METRICS
-        col_left, col_right = st.columns(2)
-        with col_left:
-            st.write("**Energy Load Sectors**")
-            st.checkbox("Airport Terminal")
-            st.checkbox("Manufacturing Plant")
-            st.checkbox("GSE")
-            st.checkbox("Other Facilities")
-
-        with col_right:
-            st.selectbox("Select Target Year", years, key="shared_target_yr")
-            st.radio(
-                "Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"]
-            )
-            st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
-            st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
+            st.slider("**Land (Acres)**", 0, 100, 75, key=f"{current_scenario}_sld_land")
+            st.slider("**Grid Cap (MW)**", 0, 100, 75, key=f"{current_scenario}_sld_gc")
 
 
 # -----------------------------------------------------------
