@@ -49,16 +49,13 @@ page = st.sidebar.selectbox(
 if page == "Decision Dashboard":
 
     st.markdown("""
-        <p style="font-size: 44px; color: #ffffff; font-weight: bold; margin-bottom: 20px;">
+        <p style="font-size: 48px; color: #ffffff; font-weight: bold; margin-bottom: 20px;">
         ✈️ Airport Electrification Dashboard ⚡️
         </p>
     """, unsafe_allow_html=True)
 
-    # 2. CREATE THE THREE SEPARATE CARDS
-    # We use columns just to place them side-by-side, but the cards themselves are separate clickable entities.
-    st.markdown("### Select an option to explore and modify:")
     
-    card_col1, card_col2, card_col3 = st.columns(3, gap="large")
+    card_col1, card_col2, card_col3 = st.columns(3, gap="medium")
 
     # --- CARD 1: SCENARIO INPUTS ---
     with card_col1:
