@@ -240,4 +240,4 @@ elif page == "Capacity Analytics":
 elif page == "System Performance":
     st.title("⚙️ System Performance")
     st.write(
-        "This page will contain performance KPIs, uptime analytics, resilience, etc."
+        "This page will contain performance KPIs, uptime analytics, resilience, etc.")
