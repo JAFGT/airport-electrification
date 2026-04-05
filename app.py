@@ -205,6 +205,108 @@ page = st.sidebar.selectbox(
 if page == "Input Metrics":
     st.markdown("<h1>✈️ Input Metrics Page</h1>", unsafe_allow_html=True)
 
+
+    # DATA SETUP
+    sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
+    ftts = ["Hybrid-Electric", "H2-SAF Combustion"]
+
+    # INITIALIZE SESSION STATE
+    for sector in sectors:
+        key = f"{sector.replace(' ', '_')}"
+        if key not in st.session_state:
+            st.session_state[key] = False
+    for year in years:
+        key = f"{year.replace(' ', '_')}"
+        if key not in st.session_state:
+            st.session_state[key] = False
+    for ftt in ftts:
+        key = f"{ftt.replace(' ', '_')}"
+        if key not in st.session_state:
+            st.session_state[key] = False
+
+
+    # CREATE GENERAL BUTTON
+    def create_general_button(general):
+        clean_name = general.replace(' ', '_')
+        key = f"{clean_name}"
+        is_active = st.session_state[key]
+        # SECTOR BUTTON STYLING
+        bg_color = '#b0a36f !important' if is_active else '#0a203c'
+        border_style = '2px solid #ffffff !important' if is_active else '1px solid #b0a36f'
+        text_color = '#ffffff !important' if is_active else '#b0a36f'
+        glow = 'inset 0 0 15px #b0a36f' if is_active else 'none'
+        with stylable_container(
+            key=f"container_{key}",
+            css_styles=f"""
+                button {{ background-color: {bg_color}; border: {border_style}; color: {text_color}; box-shadow: {glow};}}
+            """
+        ):
+            if st.button(general, key=f"btn_{key}"):
+                st.session_state[key] = not st.session_state[key]
+                st.rerun()
+
+    # CREATE YEAR BUTTON
+    def create_year_button(year):
+        clean_name = year.replace(' ', '_')
+        key = f"{clean_name}"
+        is_active = st.session_state[key]
+        # YEAR BUTTON STYLING
+        bg_color = '#0a203c !important' if is_active else '#0a203c'
+        border_style = '2px solid #69ff47 !important' if is_active else '1px solid #ffffff'
+        text_color = '#69ff47 !important' if is_active else '#ffffff'
+        glow = 'inset 0 0 15px #69ff47' if is_active else 'none'
+        with stylable_container(
+            key=f"container_{key}",
+            css_styles=f"""
+                button {{ background-color: {bg_color}; border: {border_style}; color: {text_color}; box-shadow: {glow};}}
+            """
+        ):
+            if st.button(year, key=f"btn_{key}"):
+                st.session_state[key] = not st.session_state[key]
+                st.rerun()
+
+    # UI Layout
+    st.markdown('<p style="font-size: 48px; color: #ffffff; font-weight: bold; text-align: left; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3, gap="large")
+
+    # SCENARIO INPUTS
+    with col1:
+        st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Scenario Inputs</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold;">Energy Load Sectors</p>', unsafe_allow_html=True)
+        left, right = st.columns(2)
+        with left:
+            create_general_button("Airport Terminal")
+            create_general_button("Manufacturing Plant")
+        with right:
+            create_general_button("GSE")
+            create_general_button("Other Facilities")
+
+        st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Target Year</p>', unsafe_allow_html=True)
+        cy = st.columns(5)
+        for i, year in enumerate(years):
+            with cy[i]: create_year_button(year)
+
+        st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Fleet Transition Type</p>', unsafe_allow_html=True)
+        ct1, ct2 = st.columns(2)
+        with ct1: create_general_button("Hybrid-Electric")
+        with ct2: create_general_button("H2-SAF Combustion")   
+            
+        st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
+        st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
+
+    # CAPACITY ANALYTICS
+    with col2:
+        st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Capacity Analytics</p>', unsafe_allow_html=True)
+
+    # SYSTEM PERFORMANCE
+    with col3:
+        st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">System Performance</p>', unsafe_allow_html=True)
+
+
+    # BOTTOM
+    st.markdown("---")
+
+
 # -----------------------------------------------------------
 # DECISION DASHBOARD
 # -----------------------------------------------------------
@@ -318,6 +420,7 @@ elif page == "Decision Dashboard":
             comm_pct = st.session_state[f"val_{current_scenario}_comm_{yr}"]
             biz_pct = st.session_state[f"val_{current_scenario}_biz_{yr}"]
             
+            #CHECKBOX VALS
             t_str = "YES" if term_val else "NO"
             p_str = "YES" if plant_val else "NO"
             g_str = "YES" if gse_val else "NO"
