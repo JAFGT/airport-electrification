@@ -1,15 +1,14 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
 
-# -----------------------------------------------------------
 # PAGE CONFIG
-# -----------------------------------------------------------
-st.set_page_config(page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide")
+st.set_page_config(
+    page_title="Airport Electrification Dashboard", page_icon="✈️", layout="wide"
+)
 
-# -----------------------------------------------------------
 # CSS THEME
-# -----------------------------------------------------------
-st.markdown("""
+st.markdown(
+    """
 <style>
     [data-testid="stAppViewContainer"] {
         background: linear-gradient(135deg, #0f0c29 0%, #0a203c 50%, #05172a 100%);
@@ -46,42 +45,40 @@ st.markdown("""
         transform: translateY(-2px);
     }
 </style>
-""", unsafe_allow_html=True)
-
-
-# -----------------------------------------------------------
-# PAGE SELECTOR (ONE FILE, MULTIPLE PAGES)
-# -----------------------------------------------------------
-page = st.sidebar.selectbox(
-    "**📄 Select Page**",
-    ["Dashboard", "Capacity Analytics", "System Performance"]
+""",
+    unsafe_allow_html=True,
 )
 
 
-# -----------------------------------------------------------
+# PAGE SELECTOR
+page = st.sidebar.selectbox(
+    "**Select Page**",
+    ["Decision Dashboard", "Capacity Analytics", "System Performance"],
+)
+
+
 # COMMON DATA
-# -----------------------------------------------------------
 sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
 years = ["2030", "2040", "2050", "2060", "2070"]
 ftts = ["Hybrid-Electric", "H2-SAF Combustion"]
 
-# Initialize session state for toggle buttons
+# TOGGLE SESSION STATES
 for name in sectors + years + ftts:
     key = name.replace(" ", "_")
     if key not in st.session_state:
         st.session_state[key] = False
 
 
-# -----------------------------------------------------------
 # BUTTON FUNCTIONS
-# -----------------------------------------------------------
 def create_general_button(label):
     key = label.replace(" ", "_")
     is_active = st.session_state[key]
-    bg = '#b0a36f !important' if is_active else '#0a203c'
-    border = '2px solid #ffffff !important' if is_active else '1px solid #b0a36f'
-    color = '#ffffff !important' if is_active else '#b0a36f'
-    glow = 'inset 0 0 15px #b0a36f' if is_active else 'none'
+    bg = "#b0a36f !important" if is_active else "#0a203c"
+    border = (
+        "2px solid #ffffff !important" if is_active else "1px solid #b0a36f"
+    )
+    color = "#ffffff !important" if is_active else "#b0a36f"
+    glow = "inset 0 0 15px #b0a36f" if is_active else "none"
 
     with stylable_container(
         key=f"wrap_{key}",
@@ -91,7 +88,7 @@ def create_general_button(label):
             border:{border};
             color:{color};
             box-shadow:{glow};
-        }}"""
+        }}""",
     ):
         if st.button(label, key=f"btn_{key}"):
             st.session_state[key] = not st.session_state[key]
@@ -101,9 +98,11 @@ def create_general_button(label):
 def create_year_button(year):
     key = year.replace(" ", "_")
     is_active = st.session_state[key]
-    border = '2px solid #69ff47 !important' if is_active else '1px solid #ffffff'
-    color = '#69ff47 !important' if is_active else '#ffffff'
-    glow = 'inset 0 0 15px #69ff47' if is_active else 'none'
+    border = (
+        "2px solid #69ff47 !important" if is_active else "1px solid #ffffff"
+    )
+    color = "#69ff47 !important" if is_active else "#ffffff"
+    glow = "inset 0 0 15px #69ff47" if is_active else "none"
 
     with stylable_container(
         key=f"wrap_{key}",
@@ -112,31 +111,34 @@ def create_year_button(year):
             border:{border};
             color:{color};
             box-shadow:{glow};
-        }}"""
+        }}""",
     ):
         if st.button(year, key=f"btn_{key}"):
             st.session_state[key] = not st.session_state[key]
             st.rerun()
 
 
-
+# PAGE 1 — DECISION DASHBOARD
 # -----------------------------------------------------------
-# PAGE 1 — DASHBOARD UI
-# -----------------------------------------------------------
-if page == "Dashboard":
+if page == "Decision Dashboard":
 
-    st.markdown("""
+    st.markdown(
+        """
         <p style="font-size: 48px; color: #ffffff; font-weight: bold;">
         ✈️ Airport Electrification Dashboard ⚡️
         </p>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
     col1, col2, col3 = st.columns(3, gap="large")
 
-    # -- Scenario Inputs Column --
+    # -- Column 1: Scenario Inputs --
     with col1:
-        st.markdown('<p style="font-size: 32px; color: #b0a36f; text-align:center;">Scenario Inputs</p>',
-                    unsafe_allow_html=True)
+        st.markdown(
+            '<p style="font-size: 32px; color: #b0a36f; text-align:center;">Scenario Inputs</p>',
+            unsafe_allow_html=True,
+        )
 
         st.subheader("Energy Load Sectors")
         left, right = st.columns(2)
@@ -155,35 +157,87 @@ if page == "Dashboard":
 
         st.subheader("Fleet Transition Type")
         ct1, ct2 = st.columns(2)
-        with ct1: create_general_button("Hybrid-Electric")
-        with ct2: create_general_button("H2-SAF Combustion")
+        with ct1:
+            create_general_button("Hybrid-Electric")
+        with ct2:
+            create_general_button("H2-SAF Combustion")
 
         st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
         st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
 
-    # -- Placeholder Columns --
+    # -- Column 2: Capacity Analytics (Dynamic based on buttons) --
     with col2:
-        st.markdown('<p style="font-size: 32px; color: #b0a36f; text-align:center;">Capacity Analytics</p>',
-                    unsafe_allow_html=True)
+        st.markdown(
+            '<p style="font-size: 32px; color: #b0a36f; text-align:center;">Capacity Analytics</p>',
+            unsafe_allow_html=True,
+        )
 
+        # Check which energy load sectors are active
+        active_sectors = [s for s in sectors if st.session_state[s.replace(" ", "_")]]
+
+        if not active_sectors:
+            st.info("👈 Select one or more Energy Load Sectors to view capacity metrics.")
+        else:
+            for sector in active_sectors:
+                st.markdown(f"#### 📊 {sector} Metrics")
+                
+                # Render dummy metrics or controls based on the selected card
+                if sector == "Airport Terminal":
+                    st.metric(label="Peak Demand", value="15 MW", delta="2 MW")
+                    st.metric(label="Required Solar Array", value="45 Acres", delta="-5 Acres")
+                elif sector == "GSE":
+                    st.metric(label="Fleet Charging Load", value="8 MW")
+                    st.metric(label="Chargers Needed", value="42 Units")
+                elif sector == "Manufacturing Plant":
+                    st.metric(label="Plant Baseload", value="32 MW", delta="High")
+                elif sector == "Other Facilities":
+                    st.metric(label="Baseline Energy Use", value="5 MW")
+                
+                st.markdown("---")
+
+    # -- Column 3: System Performance (Dynamic based on buttons) --
     with col3:
-        st.markdown('<p style="font-size: 32px; color: #b0a36f; text-align:center;">System Performance</p>',
-                    unsafe_allow_html=True)
+        st.markdown(
+            '<p style="font-size: 32px; color: #b0a36f; text-align:center;">System Performance</p>',
+            unsafe_allow_html=True,
+        )
+
+        if not active_sectors:
+            st.info("👈 Select sectors to view system performance indicators.")
+        else:
+            for sector in active_sectors:
+                st.markdown(f"#### ⚙️ {sector} Analytics")
+                
+                if sector == "Airport Terminal":
+                    st.success("Grid Reliability: 99.9%")
+                    st.progress(0.85, text="Terminal Autonomy Fraction")
+                elif sector == "GSE":
+                    st.success("Smart charging reduces peak by 30%")
+                    st.progress(0.95, text="Fleet Readiness Score")
+                elif sector == "Manufacturing Plant":
+                    st.warning("High risk of peak overloads.")
+                    st.progress(0.40, text="Plant Autonomy Fraction")
+                elif sector == "Other Facilities":
+                    st.success("Stable baseline.")
+                    st.progress(0.60, text="Facilities Uptime")
+                
+                st.markdown("---")
 
     st.markdown("---")
 
 
-# -----------------------------------------------------------
-# PAGE 2 — CAPACITY ANALYTICS
+# PAGE 2 — CAPACITY ANALYTICS (Standalone Page)
 # -----------------------------------------------------------
 elif page == "Capacity Analytics":
     st.title("📊 Capacity Analytics")
-    st.write("This page will contain capacity modeling, load curves, and charts.")
+    st.write(
+        "This page will contain capacity modeling, load curves, and charts."
+    )
 
 
-# -----------------------------------------------------------
-# PAGE 3 — SYSTEM PERFORMANCE
+# PAGE 3 — SYSTEM PERFORMANCE (Standalone Page)
 # -----------------------------------------------------------
 elif page == "System Performance":
     st.title("⚙️ System Performance")
-    st.write("This page will contain performance KPIs, uptime analytics, resilience, etc.")
+    st.write(
+        "This page will contain performance KPIs, uptime analytics, resilience, etc."
