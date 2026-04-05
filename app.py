@@ -89,27 +89,26 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# MASTER VARIABLES
+# INITIALIZE MASTER VARIABLES
 years = ["2030", "2040", "2050", "2060", "2070"]
 scenarios = ["Scenario A", "Scenario B", "Scenario C"]
 
 if "explored_card" not in st.session_state:
     st.session_state.explored_card = None
 
-# DISCRETE VALUES FOR CARDS
+# Discrete values for all sliders.
 for sc in scenarios:
     for yr in years:
         comm_val_key = f"val_{sc}_comm_{yr}"
         biz_val_key = f"val_{sc}_biz_{yr}"
         
-        # Initial Values
         if comm_val_key not in st.session_state:
             st.session_state[comm_val_key] = 50
         if biz_val_key not in st.session_state:
             st.session_state[biz_val_key] = 90
 
 
-# SAVED VALUES
+# DEFINE CALLBACK FUNCTIONS 
 def save_comm_value(scenario, year):
     slider_key = f"slider_{scenario}_comm_{year}"
     state_key = f"val_{scenario}_comm_{year}"
@@ -121,13 +120,12 @@ def save_biz_value(scenario, year):
     st.session_state[state_key] = st.session_state[slider_key]
 
 
-# TIMELINE FUNCTION (UNIVERSAL FOR CARDS)
+# DEFINE REUSABLE TIMELINE FUNCTION
 def render_timeline(selected_year, scenario):
     st.markdown(f"### Projections for Year {selected_year}")
 
     col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
 
-    # Calls memory for specific card.
     comm_val_key = f"val_{scenario}_comm_{selected_year}"
     biz_val_key = f"val_{scenario}_biz_{selected_year}"
     
@@ -155,7 +153,6 @@ def render_timeline(selected_year, scenario):
             args=(scenario, selected_year)
         )
 
-    # Apply inverse.
     comm_remaining = 100 - commercial_pct
     biz_remaining = 100 - business_saf_pct
 
@@ -300,16 +297,46 @@ elif page == "Decision Dashboard":
         col_left, col_right = st.columns(2)
         with col_left:
             st.write("**Energy Load Sectors**")
-            st.checkbox("Airport Terminal", key=f"{current_scenario}_term")
-            st.checkbox("Manufacturing Plant", key=f"{current_scenario}_plant")
-            st.checkbox("GSE", key=f"{current_scenario}_gse")
-            st.checkbox("Other Facilities", key=f"{current_scenario}_other")
+            term_val = st.checkbox("Airport Terminal", key=f"{current_scenario}_term")
+            plant_val = st.checkbox("Manufacturing Plant", key=f"{current_scenario}_plant")
+            gse_val = st.checkbox("GSE", key=f"{current_scenario}_gse")
+            other_val = st.checkbox("Other Facilities", key=f"{current_scenario}_other")
 
         with col_right:
-            st.selectbox("Select Target Year", years, key=f"{current_scenario}_target_yr")
-            st.radio("Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"], key=f"{current_scenario}_fleet_type")
-            st.slider("**Land (Acres)**", 0, 100, 75, key=f"{current_scenario}_sld_land")
-            st.slider("**Grid Cap (MW)**", 0, 100, 75, key=f"{current_scenario}_sld_gc")
+            target_yr_val = st.selectbox("Select Target Year", years, key=f"{current_scenario}_target_yr")
+            fleet_val = st.radio("Fleet Transition Type", ["Hybrid-Electric", "H2-SAF Combustion"], key=f"{current_scenario}_fleet_type")
+            land_val = st.slider("**Land (Acres)**", 0, 100, 75, key=f"{current_scenario}_sld_land")
+            gc_val = st.slider("**Grid Cap (MW)**", 0, 100, 75, key=f"{current_scenario}_sld_gc")
+
+        
+        st.markdown("---")
+        
+        # CSV EXPORT
+        csv_lines = ["Scenario,Year,Commercial_Pct,Business_Pct,Terminal_Selected,Plant_Selected,GSE_Selected,Other_Facilities_Selected,Target_Year_Selected,Fleet_Type,Land_Acres,Grid_Cap_MW"]
+        
+        for yr in years:
+            comm_pct = st.session_state[f"val_{current_scenario}_comm_{yr}"]
+            biz_pct = st.session_state[f"val_{current_scenario}_biz_{yr}"]
+            
+            t_str = "YES" if term_val else "NO"
+            p_str = "YES" if plant_val else "NO"
+            g_str = "YES" if gse_val else "NO"
+            o_str = "YES" if other_val else "NO"
+            
+            line = f"{current_scenario},{yr},{comm_pct},{biz_pct},{t_str},{p_str},{g_str},{o_str},{target_yr_val},{fleet_val},{land_val},{gc_val}"
+            csv_lines.append(line)
+            
+        csv_data = "\n".join(csv_lines)
+        
+        col_space, col_dl = st.columns([3, 1])
+        with col_dl:
+            st.download_button(
+                label=f"📥 Export {current_scenario} to CSV",
+                data=csv_data,
+                file_name=f"{current_scenario.lower().replace(' ', '_')}_metrics.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
 
 
 # -----------------------------------------------------------
