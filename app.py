@@ -46,125 +46,112 @@ years = ["2040", "2050", "2060", "2070"]
 scenarios = ["Scenario A", "Scenario B", "Scenario C"]
 load_facilities = ["Terminal", "Aircraft", "GSE", "Manufacturing Plant"]
 
-# PRESET INITIALIZATION FROM SENSITIVITY TABLE
+# PRESET INITIALIZATION FROM SENSITIVITY TABLE (Image 2)
 if "presets_applied" not in st.session_state:
-    # S1: Optimistic (Scenario A)
+    # Scenario A (S1: Optimistic)
     st.session_state["A_demand"] = "High"; st.session_state["A_pv"] = "Advanced"; st.session_state["A_h2"] = "Low"
     st.session_state["A_elec"] = "Low"; st.session_state["A_itc"] = True; st.session_state["A_target"] = "2050"
-    st.session_state["val_A_comm_2040"] = 100; st.session_state["val_A_comm_2050"] = 100 # HE by 2040
+    st.session_state["val_A_comm_2040"] = 100; st.session_state["val_A_comm_2050"] = 100 
     
-    # S2: Baseline (Scenario B)
+    # Scenario B (S2: Baseline)
     st.session_state["B_demand"] = "Baseline"; st.session_state["B_pv"] = "Moderate"; st.session_state["B_h2"] = "Baseline"
     st.session_state["B_elec"] = "Baseline"; st.session_state["B_itc"] = True; st.session_state["B_target"] = "2060"
-    st.session_state["val_B_comm_2050"] = 100 # HE by 2050
+    st.session_state["val_B_comm_2050"] = 100
     
-    # S3: Conservative (Scenario C)
+    # Scenario C (S3: Conservative)
     st.session_state["C_demand"] = "Low"; st.session_state["C_pv"] = "Conservative"; st.session_state["C_h2"] = "High"
     st.session_state["C_elec"] = "High"; st.session_state["C_itc"] = False; st.session_state["C_target"] = "2070"
-    st.session_state["val_C_comm_2060"] = 100 # HE by 2060
+    st.session_state["val_C_comm_2060"] = 100
     
     st.session_state["presets_applied"] = True
 
 if "explored_card" not in st.session_state:
     st.session_state.explored_card = None
 
-# HELPER: PRESET BUTTONS
+# HELPER: PRESET BUTTONS (Scenario/Global)
 def create_preset_row(label, options, key_prefix, sc_id):
     st.markdown(f"**{label}**")
     cols = st.columns(len(options))
     state_key = f"{sc_id}_{key_prefix}"
+    if state_key not in st.session_state:
+        st.session_state[state_key] = options[1] # Default to middle option
+    
     for i, option in enumerate(options):
-        is_active = (st.session_state.get(state_key) == option)
+        is_active = (st.session_state[state_key] == option)
         bg = '#b0a36f !important' if is_active else '#0a203c'
         with cols[i]:
-            with stylable_container(key=f"c_{sc_id}_{key_prefix}_{option}", css_styles=f"button {{ background-color: {bg}; border: 1px solid #ffffff; }}"):
+            with stylable_container(key=f"c_{sc_id}_{key_prefix}_{option}", css_styles=f"button {{ background-color: {bg}; border: 1px solid #ffffff; min-height: 40px !important; }}"):
                 if st.button(option, key=f"btn_{sc_id}_{key_prefix}_{option}"):
                     st.session_state[state_key] = option
                     st.rerun()
-
-# HELPER: TIMELINE
-def render_timeline(year, sc_id):
-    st.markdown(f"### Projections for Year {year}")
-    c1, c2 = st.columns([1, 1.5])
-    comm_key = f"val_{sc_id}_comm_{year}"
-    if comm_key not in st.session_state: st.session_state[comm_key] = 50
-    with c1:
-        comm_val = st.slider("Commercial Hybrid-Electric Mix (%)", 0, 100, key=f"sl_{sc_id}_{year}", value=st.session_state[comm_key])
-        st.session_state[comm_key] = comm_val
-        biz_val = 90
-    rem_c, rem_b = 100-comm_val, 100-biz_val
-    with c2:
-        st.html(f'<div class="timeline-container"><div class="timeline-labels"><span>2040</span><span>2050</span><span>2060</span><span>2070</span></div><hr style="border-color:#69ff47;"><div class="row-container"><div class="row-title">Commercial</div><div class="bar-container"><div class="segment seg-dark-blue" style="width:{comm_val}%;">{comm_val}%</div><div class="block-splitter"></div><div class="segment seg-light-blue" style="width:{rem_c}%;">{rem_c}%</div></div></div><div class="row-container"><div class="row-title">Business</div><div class="bar-container"><div class="segment seg-light-green" style="width:{biz_val}%;">{biz_val}%</div><div class="block-splitter"></div><div class="segment seg-dark-green" style="width:{rem_b}%;">{rem_b}%</div></div></div></div>')
 
 # PAGE SELECTOR
 page = st.sidebar.selectbox("**Select Page**", ["Input Metrics", "Decision Dashboard", "Graphical Performance"])
 
 # -----------------------------------------------------------
-# ORIGINAL INPUT METRICS PAGE
+# REDESIGNED INPUT METRICS (Based on Image 1)
 # -----------------------------------------------------------
 if page == "Input Metrics":
-
     st.markdown('<p style="font-size: 44px; color: #ffffff; font-weight: bold; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns([1.2, 1, 1], gap="large")
-
-    # COLUMN 1: LOAD & YEAR
+    
     with col1:
         st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Scenario Configuration</p>', unsafe_allow_html=True)
         
-        # Load Facilities Multi-select logic
+        # 1. Load Facilities (Multi-select)
         st.markdown("**Load Facilities**")
         f_cols = st.columns(2)
         for i, sector in enumerate(load_facilities):
-            key = f"load_{sector.replace(' ', '_')}"
+            key = f"global_load_{sector.replace(' ', '_')}"
             if key not in st.session_state: st.session_state[key] = False
             with f_cols[i % 2]:
                 is_active = st.session_state[key]
                 bg = '#b0a36f !important' if is_active else '#0a203c'
-                with stylable_container(key=f"c_{key}", css_styles=f"button {{ background-color: {bg}; border: 1px solid #ffffff; min-height: 40px !important;}}"):
-                    if st.button(sector, key=f"btn_{key}"):
+                with stylable_container(key=f"fac_{sector}", css_styles=f"button {{ background-color: {bg}; border: 1px solid #ffffff; min-height: 40px !important; }}"):
+                    if st.button(sector, key=f"btn_global_load_{sector}"):
                         st.session_state[key] = not st.session_state[key]
                         st.rerun()
-
-        st.write("")
-        target_year = st.selectbox("**Target Year**", years, index=1)
         
+        # 2. Target Year (Dropdown)
+        st.write("")
+        st.selectbox("**Target Year**", years, index=1, key="global_target_year")
+        
+        # 3. Fleet Transition Pathway (Slidebars)
         st.markdown("**Fleet Transition Pathway**")
         st.slider("HE 2040 Mix (%)", 0, 100, 50, key="global_he_slider")
-        st.slider("H2-SAF 2050 Mix (%)", 0, 100, 20, key="global_h2saf_slider")
+        st.slider("H2-SAF 2050 Mix (%)", 0, 100, 20, key="global_h2_slider")
 
-    # COLUMN 2: PRESETS
     with col2:
         st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Economic & Tech Presets</p>', unsafe_allow_html=True)
-        create_preset_row("Demand Growth Scenario", ["Low", "Baseline", "High"], "p_demand")
+        # 4, 5, 6, 7. Presets
+        create_preset_row("Demand Growth Scenario", ["Low", "Baseline", "High"], "demand", "Global")
         st.write("")
-        create_preset_row("PV Innovation/Tech Scenario", ["Conservative", "Moderate", "Advanced"], "p_pv")
+        create_preset_row("PV Innovation/ Tech Growth", ["Conservative", "Moderate", "Advanced"], "pv", "Global")
         st.write("")
-        create_preset_row("H2 Import Price", ["Low", "Baseline", "High"], "p_h2")
+        create_preset_row("H2 Import Price", ["Low", "Baseline", "High"], "h2", "Global")
         st.write("")
-        create_preset_row("Electricity Price Escalation", ["Low", "Baseline", "High"], "p_elec")
+        create_preset_row("Electricity Price Escalation", ["Low", "Baseline", "High"], "elec", "Global")
 
-    # COLUMN 3: INCENTIVES
     with col3:
-        st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Incentives & Logistics</p>', unsafe_allow_html=True)
-        itc_toggle = st.toggle("**Federal ITC (30%)**", value=True)
-        st.info(f"ITC Status: {'On (30%)' if itc_toggle else 'Off (0%)'}")
+        st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Incentives & Constraints</p>', unsafe_allow_html=True)
+        # 8. Federal ITC Toggle
+        st.toggle("**Federal ITC (30%)**", value=True, key="global_itc_toggle")
         
         st.write("---")
-        st.slider("**Land Available (Acres)**", 0, 500, 250, key="global_land_acres")
-        st.slider("**Grid Capacity (MW)**", 0, 100, 50, key="global_grid_mw")
-
-    # BOTTOM
-    st.markdown("---")
+        st.slider("**Land Available (Acres)**", 0, 500, 250, key="global_land")
+        st.slider("**Grid Capacity (MW)**", 0, 100, 50, key="global_grid")
 
 # -----------------------------------------------------------
-# MODIFIED DECISION DASHBOARD (Scenario Presets)
+# DECISION DASHBOARD (Scenario Presets based on Image 2)
 # -----------------------------------------------------------
 elif page == "Decision Dashboard":
     st.markdown('<p style="font-size: 48px; color: #ffffff; font-weight: bold; margin-bottom: 20px;">✈️ Scenario Decision Suite ⚡️</p>', unsafe_allow_html=True)
+    
     card_cols = st.columns(3)
-    labels = ["S1: Optimistic", "S2: Baseline", "S3: Conservative"]
+    labels = ["S1: Optimistic (Aggressive)", "S2: Baseline", "S3: Conservative (Slow)"]
     sc_ids = ["A", "B", "C"]
+    
     for i, sc in enumerate(sc_ids):
         is_active = st.session_state.explored_card == sc
         bg = "rgba(176, 163, 111, 0.2)" if is_active else "rgba(255, 255, 255, 0.05)"
@@ -177,6 +164,8 @@ elif page == "Decision Dashboard":
     if st.session_state.explored_card:
         sc = st.session_state.explored_card
         st.markdown("---")
+        st.subheader(f"Modifying Scenario {sc}")
+        
         m1, m2, m3 = st.columns(3)
         with m1:
             st.selectbox("Target Year", years, index=years.index(st.session_state[f"{sc}_target"]), key=f"targ_{sc}")
@@ -187,9 +176,6 @@ elif page == "Decision Dashboard":
         with m3:
             create_preset_row("H2 Price", ["Low", "Baseline", "High"], "h2", sc)
             create_preset_row("Elec Escalation", ["Low", "Baseline", "High"], "elec", sc)
-        
-        st.markdown("---")
-        render_timeline(st.session_state[f"{sc}_target"], sc)
 
 elif page == "Graphical Performance":
     st.title("📊 Graphical Performance")
