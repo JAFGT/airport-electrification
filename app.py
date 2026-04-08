@@ -103,26 +103,59 @@ page = st.sidebar.selectbox("**Select Page**", ["Input Metrics", "Decision Dashb
 # ORIGINAL INPUT METRICS PAGE
 # -----------------------------------------------------------
 if page == "Input Metrics":
+
     st.markdown('<p style="font-size: 44px; color: #ffffff; font-weight: bold; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns([1.2, 1, 1], gap="large")
+
+    # COLUMN 1: LOAD & YEAR
     with col1:
         st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Scenario Configuration</p>', unsafe_allow_html=True)
+        
+        # Load Facilities Multi-select logic
         st.markdown("**Load Facilities**")
         f_cols = st.columns(2)
         for i, sector in enumerate(load_facilities):
+            key = f"load_{sector.replace(' ', '_')}"
+            if key not in st.session_state: st.session_state[key] = False
             with f_cols[i % 2]:
-                with stylable_container(key=f"fac_{sector}", css_styles="button { background-color: #0a203c; border: 1px solid #ffffff; }"):
-                    st.button(sector)
-        st.selectbox("**Target Year**", years, index=1)
-        st.slider("HE 2040 Mix (%)", 0, 100, 50)
+                is_active = st.session_state[key]
+                bg = '#b0a36f !important' if is_active else '#0a203c'
+                with stylable_container(key=f"c_{key}", css_styles=f"button {{ background-color: {bg}; border: 1px solid #ffffff; min-height: 40px !important;}}"):
+                    if st.button(sector, key=f"btn_{key}"):
+                        st.session_state[key] = not st.session_state[key]
+                        st.rerun()
+
+        st.write("")
+        target_year = st.selectbox("**Target Year**", years, index=1)
+        
+        st.markdown("**Fleet Transition Pathway**")
+        st.slider("HE 2040 Mix (%)", 0, 100, 50, key="global_he_slider")
+        st.slider("H2-SAF 2050 Mix (%)", 0, 100, 20, key="global_h2saf_slider")
+
+    # COLUMN 2: PRESETS
     with col2:
         st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Economic & Tech Presets</p>', unsafe_allow_html=True)
-        create_preset_row("Demand Growth", ["Low", "Baseline", "High"], "p_demand", "Global")
-        create_preset_row("PV Innovation", ["Conservative", "Moderate", "Advanced"], "p_pv", "Global")
+        create_preset_row("Demand Growth Scenario", ["Low", "Baseline", "High"], "p_demand")
+        st.write("")
+        create_preset_row("PV Innovation/Tech Scenario", ["Conservative", "Moderate", "Advanced"], "p_pv")
+        st.write("")
+        create_preset_row("H2 Import Price", ["Low", "Baseline", "High"], "p_h2")
+        st.write("")
+        create_preset_row("Electricity Price Escalation", ["Low", "Baseline", "High"], "p_elec")
+
+    # COLUMN 3: INCENTIVES
     with col3:
         st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Incentives & Logistics</p>', unsafe_allow_html=True)
-        st.toggle("**Federal ITC (30%)**", value=True)
-        st.slider("**Land Available (Acres)**", 0, 500, 250)
+        itc_toggle = st.toggle("**Federal ITC (30%)**", value=True)
+        st.info(f"ITC Status: {'On (30%)' if itc_toggle else 'Off (0%)'}")
+        
+        st.write("---")
+        st.slider("**Land Available (Acres)**", 0, 500, 250, key="global_land_acres")
+        st.slider("**Grid Capacity (MW)**", 0, 100, 50, key="global_grid_mw")
+
+    # BOTTOM
+    st.markdown("---")
 
 # -----------------------------------------------------------
 # MODIFIED DECISION DASHBOARD (Scenario Presets)
