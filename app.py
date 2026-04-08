@@ -46,8 +46,8 @@ years = ["2040", "2050", "2060", "2070"]
 scenarios = ["Scenario A", "Scenario B", "Scenario C", "Scenario D"]
 load_facilities = ["Terminal", "Aircraft", "GSE", "Manufacturing Plant"]
 
-# PRESET INITIALIZATION (Sensitivity Table + New Custom S4)
-if "presets_applied" not in st.session_state:
+# PRESET INITIALIZATION (With safety check for S4/Custom)
+if "presets_applied" not in st.session_state or "D_target" not in st.session_state:
     # S1: Optimistic (A)
     st.session_state["A_demand"] = "High"; st.session_state["A_pv"] = "Advanced"; st.session_state["A_h2"] = "Low"
     st.session_state["A_elec"] = "Low"; st.session_state["A_itc"] = True; st.session_state["A_target"] = "2050"
@@ -63,7 +63,7 @@ if "presets_applied" not in st.session_state:
     st.session_state["C_elec"] = "High"; st.session_state["C_itc"] = False; st.session_state["C_target"] = "2070"
     st.session_state["val_C_comm_2060"] = 100
 
-    # S4: Custom (D) - Initialized to Global Defaults
+    # S4: Custom (D)
     st.session_state["D_demand"] = "Baseline"; st.session_state["D_pv"] = "Moderate"; st.session_state["D_h2"] = "Baseline"
     st.session_state["D_elec"] = "Baseline"; st.session_state["D_itc"] = True; st.session_state["D_target"] = "2060"
     
@@ -77,6 +77,8 @@ def create_preset_row(label, options, key_prefix, sc_id):
     st.markdown(f"**{label}**")
     cols = st.columns(len(options))
     state_key = f"{sc_id}_{key_prefix}"
+    
+    # Ensure key exists before rendering to prevent KeyError
     if state_key not in st.session_state:
         st.session_state[state_key] = options[1]
     
@@ -93,7 +95,7 @@ def create_preset_row(label, options, key_prefix, sc_id):
 page = st.sidebar.selectbox("**Select Page**", ["Input Metrics", "Decision Dashboard", "Graphical Performance"])
 
 # -----------------------------------------------------------
-# PAGE 1: INPUT METRICS (KEEPING ORIGINAL)
+# PAGE 1: INPUT METRICS
 # -----------------------------------------------------------
 if page == "Input Metrics":
     st.markdown('<p style="font-size: 44px; color: #ffffff; font-weight: bold; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
@@ -134,14 +136,14 @@ if page == "Input Metrics":
         st.slider("**Grid Capacity (MW)**", 0, 100, 50, key="global_grid")
 
 # -----------------------------------------------------------
-# PAGE 2: DECISION DASHBOARD (ADDED S4: CUSTOM)
+# PAGE 2: DECISION DASHBOARD
 # -----------------------------------------------------------
 elif page == "Decision Dashboard":
     st.markdown('<p style="font-size: 48px; color: #ffffff; font-weight: bold; margin-bottom: 20px;">✈️ Scenario Decision Suite ⚡️</p>', unsafe_allow_html=True)
     
-    card_cols = st.columns(4) # Changed to 4 columns
+    card_cols = st.columns(4)
     labels = ["S1: Optimistic", "S2: Baseline", "S3: Conservative", "S4: Custom"]
-    sc_ids = ["A", "B", "C", "D"] # Added D
+    sc_ids = ["A", "B", "C", "D"]
     
     for i, sc in enumerate(sc_ids):
         is_active = st.session_state.explored_card == sc
@@ -159,8 +161,12 @@ elif page == "Decision Dashboard":
         
         m1, m2, m3 = st.columns(3)
         with m1:
-            st.selectbox("Target Year", years, index=years.index(st.session_state[f"{sc}_target"]), key=f"targ_{sc}")
-            st.toggle("Federal ITC", value=st.session_state[f"{sc}_itc"], key=f"itc_{sc}")
+            # Added a safety check to ensure index finding doesn't fail
+            current_target = st.session_state.get(f"{sc}_target", "2060")
+            target_idx = years.index(current_target) if current_target in years else 1
+            
+            st.selectbox("Target Year", years, index=target_idx, key=f"targ_{sc}")
+            st.toggle("Federal ITC", value=st.session_state.get(f"{sc}_itc", True), key=f"itc_{sc}")
         with m2:
             create_preset_row("Demand Growth", ["Low", "Baseline", "High"], "demand", sc)
             create_preset_row("PV Tech (NREL)", ["Conservative", "Moderate", "Advanced"], "pv", sc)
