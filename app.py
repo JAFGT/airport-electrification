@@ -26,7 +26,6 @@ st.markdown(
     }
     
     .timeline-container { width: 100%; margin-top: 10px; font-family: sans-serif; }
-    .timeline-labels { display: flex; justify-content: space-around; color: #ffffff; font-weight: bold; margin-bottom: 5px; }
     .row-container { display: flex; align-items: center; margin-bottom: 15px; }
     .row-title { width: 120px; font-size: 16px; font-weight: bold; color: #ff4b4b; }
     .bar-container { flex-grow: 1; display: flex; height: 45px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.4); }
@@ -46,21 +45,17 @@ years = ["2040", "2050", "2060", "2070"]
 scenarios = ["Scenario A", "Scenario B", "Scenario C", "Scenario D"]
 load_facilities = ["Terminal", "Aircraft", "GSE", "Manufacturing Plant"]
 
-# PRESET INITIALIZATION (Sensitivity Table + Custom S4)
+# PRESET INITIALIZATION
 if "presets_applied" not in st.session_state:
-    # S1: Optimistic (A)
     st.session_state["A_demand"] = "High"; st.session_state["A_pv"] = "Advanced"; st.session_state["A_h2"] = "Low"
     st.session_state["A_elec"] = "Low"; st.session_state["A_itc"] = True; st.session_state["A_target"] = "2050"
     
-    # S2: Baseline (B)
     st.session_state["B_demand"] = "Baseline"; st.session_state["B_pv"] = "Moderate"; st.session_state["B_h2"] = "Baseline"
     st.session_state["B_elec"] = "Baseline"; st.session_state["B_itc"] = True; st.session_state["B_target"] = "2060"
     
-    # S3: Conservative (C)
     st.session_state["C_demand"] = "Low"; st.session_state["C_pv"] = "Conservative"; st.session_state["C_h2"] = "High"
     st.session_state["C_elec"] = "High"; st.session_state["C_itc"] = False; st.session_state["C_target"] = "2070"
 
-    # S4: Custom (D)
     st.session_state["D_demand"] = "Baseline"; st.session_state["D_pv"] = "Moderate"; st.session_state["D_h2"] = "Baseline"
     st.session_state["D_elec"] = "Baseline"; st.session_state["D_itc"] = True; st.session_state["D_target"] = "2060"
     
@@ -86,29 +81,26 @@ def create_preset_row(label, options, key_prefix, sc_id):
                     st.session_state[state_key] = option
                     st.rerun()
 
-# HELPER: TIMELINE RENDERER (Restored original logic)
+# HELPER: TIMELINE RENDERER (Cleaned version - Bar on top removed)
 def render_decade_sliders(selected_year, sc_id):
     target_int = int(selected_year)
-    # Filter years up to and including the target year
     available_decades = [y for y in years if int(y) <= target_int]
     
     for yr in available_decades:
         st.markdown(f"### Projections for Year {yr}")
         col_sliders, col_visual = st.columns([1, 1.5], gap="medium")
         
-        # Unique keys for every decade in every scenario
         comm_key = f"val_{sc_id}_comm_{yr}"
         biz_key = f"val_{sc_id}_biz_{yr}"
         
-        # Initialize if not present
         if comm_key not in st.session_state: st.session_state[comm_key] = 50
         if biz_key not in st.session_state: st.session_state[biz_key] = 90
         
         with col_sliders:
-            comm_pct = st.slider(f"Commercial Hybrid-Electric Mix (%) - {yr}", 0, 100, key=f"sl_comm_{sc_id}_{yr}", value=st.session_state[comm_key])
+            comm_pct = st.slider(f"Commercial Hybrid-Electric Mix (%)", 0, 100, key=f"sl_comm_{sc_id}_{yr}", value=st.session_state[comm_key])
             st.session_state[comm_key] = comm_pct
             
-            biz_pct = st.slider(f"Business 100% SAF Mix (%) - {yr}", 0, 100, key=f"sl_biz_{sc_id}_{yr}", value=st.session_state[biz_key])
+            biz_pct = st.slider(f"Business 100% SAF Mix (%)", 0, 100, key=f"sl_biz_{sc_id}_{yr}", value=st.session_state[biz_key])
             st.session_state[biz_key] = biz_pct
 
         comm_rem = 100 - comm_pct
@@ -117,8 +109,6 @@ def render_decade_sliders(selected_year, sc_id):
         with col_visual:
             st.html(f"""
             <div class="timeline-container">
-                <div class="timeline-labels"><span>2040</span><span>2050</span><span>2060</span><span>2070</span></div>
-                <hr style="border-color: #69ff47; margin-bottom: 25px;">
                 <div class="row-container">
                     <div class="row-title">Commercial</div>
                     <div class="bar-container">
@@ -212,7 +202,6 @@ elif page == "Decision Dashboard":
             current_target = st.session_state.get(f"{sc}_target", "2060")
             target_idx = years.index(current_target) if current_target in years else 1
             
-            # Target year update triggers decade slider refresh
             new_target = st.selectbox("Target Year", years, index=target_idx, key=f"targ_{sc}")
             st.session_state[f"{sc}_target"] = new_target
             
@@ -225,7 +214,6 @@ elif page == "Decision Dashboard":
             create_preset_row("Elec Escalation", ["Low", "Baseline", "High"], "elec", sc)
 
         st.markdown("---")
-        # Renders sliders for each decade up to the selected target year
         render_decade_sliders(st.session_state[f"{sc}_target"], sc)
 
 elif page == "Graphical Performance":
