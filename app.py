@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
+import numpy as np
 
 # PAGE CONFIG
 st.set_page_config(
@@ -90,8 +91,9 @@ st.markdown(
 )
 
 # INITIALIZE MASTER VARIABLES
-years = ["2030", "2040", "2050", "2060", "2070"]
+years = ["2040", "2050", "2060", "2070"]
 scenarios = ["Scenario A", "Scenario B", "Scenario C"]
+load_facilities = ["Terminal", "Aircraft", "GSE", "Manufacturing Plant"]
 
 if "explored_card" not in st.session_state:
     st.session_state.explored_card = None
@@ -118,6 +120,31 @@ def save_biz_value(scenario, year):
     slider_key = f"slider_{scenario}_biz_{year}"
     state_key = f"val_{scenario}_biz_{year}"
     st.session_state[state_key] = st.session_state[slider_key]
+
+
+# HELPER FOR PRESET BUTTONS
+def create_preset_row(label, options, key_prefix):
+    st.markdown(f"**{label}**")
+    cols = st.columns(len(options))
+    for i, option in enumerate(options):
+        key = f"{key_prefix}_{option.lower()}"
+        if key not in st.session_state:
+            st.session_state[key] = (option in ["Baseline", "Moderate"])
+        
+        is_active = st.session_state[key]
+        bg = '#b0a36f !important' if is_active else '#0a203c'
+        border = '2px solid #ffffff' if is_active else '1px solid #b0a36f'
+        
+        with cols[i]:
+            with stylable_container(
+                key=f"cont_{key}",
+                css_styles=f"button {{ background-color: {bg}; border: {border}; color: white; min-height: 40px !important;}}"
+            ):
+                if st.button(option, key=f"btn_{key}"):
+                    for opt in options:
+                        st.session_state[f"{key_prefix}_{opt.lower()}"] = False
+                    st.session_state[key] = True
+                    st.rerun()
 
 
 # DEFINE REUSABLE TIMELINE FUNCTION
@@ -161,10 +188,10 @@ def render_timeline(selected_year, scenario):
             f"""
         <div class="timeline-container">
             <div class="timeline-labels">
-                <span>2030</span>
                 <span>2040</span>
                 <span>2050</span>
                 <span>2060</span>
+                <span>2070</span>
             </div>
             
             <hr style="border-color: #69ff47; margin-bottom: 25px;">
@@ -204,102 +231,55 @@ page = st.sidebar.selectbox(
 # -----------------------------------------------------------
 if page == "Input Metrics":
 
-    # DATA SETUP
-    sectors = ["Airport Terminal", "GSE", "Manufacturing Plant", "Other Facilities"]
-    ftts = ["Hybrid-Electric", "H2-SAF Combustion"]
+    st.markdown('<p style="font-size: 44px; color: #ffffff; font-weight: bold; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1.2, 1, 1], gap="large")
 
-    # INITIALIZE SESSION STATE
-    for sector in sectors:
-        key = f"{sector.replace(' ', '_')}"
-        if key not in st.session_state:
-            st.session_state[key] = False
-    for year in years:
-        key = f"{year.replace(' ', '_')}"
-        if key not in st.session_state:
-            st.session_state[key] = False
-    for ftt in ftts:
-        key = f"{ftt.replace(' ', '_')}"
-        if key not in st.session_state:
-            st.session_state[key] = False
-
-
-    # CREATE GENERAL BUTTON
-    def create_general_button(general):
-        clean_name = general.replace(' ', '_')
-        key = f"{clean_name}"
-        is_active = st.session_state[key]
-        # SECTOR BUTTON STYLING
-        bg_color = '#b0a36f !important' if is_active else '#0a203c'
-        border_style = '2px solid #ffffff !important' if is_active else '1px solid #b0a36f'
-        text_color = '#ffffff !important' if is_active else '#b0a36f'
-        glow = 'inset 0 0 15px #b0a36f' if is_active else 'none'
-        with stylable_container(
-            key=f"container_{key}",
-            css_styles=f"""
-                button {{ background-color: {bg_color}; border: {border_style}; color: {text_color}; box-shadow: {glow};}}
-            """
-        ):
-            if st.button(general, key=f"btn_{key}"):
-                st.session_state[key] = not st.session_state[key]
-                st.rerun()
-
-    # CREATE YEAR BUTTON
-    def create_year_button(year):
-        clean_name = year.replace(' ', '_')
-        key = f"{clean_name}"
-        is_active = st.session_state[key]
-        # YEAR BUTTON STYLING
-        bg_color = '#0a203c !important' if is_active else '#0a203c'
-        border_style = '2px solid #69ff47 !important' if is_active else '1px solid #ffffff'
-        text_color = '#69ff47 !important' if is_active else '#ffffff'
-        glow = 'inset 0 0 15px #69ff47' if is_active else 'none'
-        with stylable_container(
-            key=f"container_{key}",
-            css_styles=f"""
-                button {{ background-color: {bg_color}; border: {border_style}; color: {text_color}; box-shadow: {glow};}}
-            """
-        ):
-            if st.button(year, key=f"btn_{key}"):
-                st.session_state[key] = not st.session_state[key]
-                st.rerun()
-
-    # UI Layout
-    st.markdown('<p style="font-size: 48px; color: #ffffff; font-weight: bold; text-align: left; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns(3, gap="large")
-
-    # SCENARIO INPUTS
+    # COLUMN 1: LOAD & YEAR
     with col1:
-        st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Scenario Inputs</p>', unsafe_allow_html=True)
-        st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold;">Energy Load Sectors</p>', unsafe_allow_html=True)
-        left, right = st.columns(2)
-        with left:
-            create_general_button("Airport Terminal")
-            create_general_button("Manufacturing Plant")
-        with right:
-            create_general_button("GSE")
-            create_general_button("Other Facilities")
+        st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Scenario Configuration</p>', unsafe_allow_html=True)
+        
+        # Load Facilities Multi-select logic
+        st.markdown("**Load Facilities**")
+        f_cols = st.columns(2)
+        for i, sector in enumerate(load_facilities):
+            key = f"load_{sector.replace(' ', '_')}"
+            if key not in st.session_state: st.session_state[key] = False
+            with f_cols[i % 2]:
+                is_active = st.session_state[key]
+                bg = '#b0a36f !important' if is_active else '#0a203c'
+                with stylable_container(key=f"c_{key}", css_styles=f"button {{ background-color: {bg}; border: 1px solid #ffffff; min-height: 40px !important;}}"):
+                    if st.button(sector, key=f"btn_{key}"):
+                        st.session_state[key] = not st.session_state[key]
+                        st.rerun()
 
-        st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Target Year</p>', unsafe_allow_html=True)
-        cy = st.columns(5)
-        for i, year in enumerate(years):
-            with cy[i]: create_year_button(year)
+        st.write("")
+        target_year = st.selectbox("**Target Year**", years, index=1)
+        
+        st.markdown("**Fleet Transition Pathway**")
+        st.slider("HE 2040 Mix (%)", 0, 100, 50, key="global_he_slider")
+        st.slider("H2-SAF 2050 Mix (%)", 0, 100, 20, key="global_h2saf_slider")
 
-        st.markdown('<p style="font-size: 24px; color: #ffffff; font-weight: bold; margin-top: 20px;">Fleet Transition Type</p>', unsafe_allow_html=True)
-        ct1, ct2 = st.columns(2)
-        with ct1: create_general_button("Hybrid-Electric")
-        with ct2: create_general_button("H2-SAF Combustion")   
-            
-        st.slider("**Land (Acres)**", 0, 100, 75, key="sld_land")
-        st.slider("**Grid Cap (MW)**", 0, 100, 75, key="sld_gc")
-
-    # CAPACITY ANALYTICS
+    # COLUMN 2: PRESETS
     with col2:
-        st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">Capacity Analytics</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Economic & Tech Presets</p>', unsafe_allow_html=True)
+        create_preset_row("Demand Growth Scenario", ["Low", "Baseline", "High"], "p_demand")
+        st.write("")
+        create_preset_row("PV Innovation/Tech Scenario", ["Conservative", "Moderate", "Advanced"], "p_pv")
+        st.write("")
+        create_preset_row("H2 Import Price", ["Low", "Baseline", "High"], "p_h2")
+        st.write("")
+        create_preset_row("Electricity Price Escalation", ["Low", "Baseline", "High"], "p_elec")
 
-    # SYSTEM PERFORMANCE
+    # COLUMN 3: INCENTIVES
     with col3:
-        st.markdown('<p style="font-size: 32px; color: #b0a36f; font-weight: bold;text-align: center;">System Performance</p>', unsafe_allow_html=True)
-
+        st.markdown('<p style="font-size: 28px; color: #b0a36f; font-weight: bold;">Incentives & Logistics</p>', unsafe_allow_html=True)
+        itc_toggle = st.toggle("**Federal ITC (30%)**", value=True)
+        st.info(f"ITC Status: {'On (30%)' if itc_toggle else 'Off (0%)'}")
+        
+        st.write("---")
+        st.slider("**Land Available (Acres)**", 0, 500, 250, key="global_land_acres")
+        st.slider("**Grid Capacity (MW)**", 0, 100, 50, key="global_grid_mw")
 
     # BOTTOM
     st.markdown("---")
@@ -329,7 +309,7 @@ elif page == "Decision Dashboard":
 
         with stylable_container(
             key="scenario_a",
-            css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
+            css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; min-height: 120px !important;}}",
         ):
             if st.button("**Scenario A**", key="scenario_a_btn"):
                 st.session_state.explored_card = "Scenario A"
@@ -344,7 +324,7 @@ elif page == "Decision Dashboard":
 
         with stylable_container(
             key="scenario_b",
-            css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
+            css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; min-height: 120px !important;}}",
         ):
             if st.button("**Scenario B**", key="scenario_b_btn"):
                 st.session_state.explored_card = "Scenario B"
@@ -359,7 +339,7 @@ elif page == "Decision Dashboard":
 
         with stylable_container(
             key="scenario_c",
-            css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; }}",
+            css_styles=f"button {{ background-color: {bg_color} !important; border: {border_style} !important; box-shadow: {shadow} !important; min-height: 120px !important;}}",
         ):
             if st.button("**Scenario C**", key="scenario_c_btn"):
                 st.session_state.explored_card = "Scenario C"
@@ -396,7 +376,7 @@ elif page == "Decision Dashboard":
         # ADDITIONAL METRICS
         col_left, col_right = st.columns(2)
         with col_left:
-            st.write("**Energy Load Sectors**")
+            st.write("**Scenario Load Focus**")
             term_val = st.checkbox("Airport Terminal", key=f"{current_scenario}_term")
             plant_val = st.checkbox("Manufacturing Plant", key=f"{current_scenario}_plant")
             gse_val = st.checkbox("GSE", key=f"{current_scenario}_gse")
