@@ -135,7 +135,7 @@ page = st.sidebar.selectbox("**Select Page**", ["Input Metrics", "Decision Dashb
 # -----------------------------------------------------------
 # PAGE 1: INPUT METRICS
 # -----------------------------------------------------------
-elif page == "Input Metrics":
+if page == "Input Metrics":
     st.markdown('<p style="font-size: 44px; color: #ffffff; font-weight: bold; margin-bottom: 30px;">✈️ Airport Electrification Dashboard ⚡️</p>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1.2, 1, 1], gap="large")
     with col1:
@@ -216,6 +216,9 @@ elif page == "Decision Dashboard":
         st.markdown("---")
         render_decade_sliders(st.session_state[f"{sc}_target"], sc)
 
+# -----------------------------------------------------------
+# PAGE 3: GRAPHS
+# -----------------------------------------------------------
 elif page == "Graphical Performance":
     st.title("📊 Graphical Performance")
     st.write("Charts based on scenario configurations.")
